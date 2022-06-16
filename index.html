@@ -6,38 +6,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="./css/main.min.css" />
-    <link rel="stylesheet" href="./css/style.css"/>
-        <link rel="stylesheet" href="./css/custom.min.css"/>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/custom.min.css" />
+    <link
+      rel="stylesheet"
+      href="./Develop/node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
 
     <title>Invoice Generator</title>
   </head>
 
-
   <body>
-    <div class="container">
-    <nav class="navbar navbar-expand d-flex flex-column align-item-start" id="sidebar">
-      <a href="#" class="navbar-brand text-light mt-5">
-          <div class="display-6 font-weight-bold">NAVIGATION</div>
-      </a>
-      <ul class="navbar-nav d-flex flex-column mt-5 w-100">
-          <li class="nav-item w-100">
-              <a href="#" class="nav-link text-light pl-4">Customers</a>
+    <div class="container position-relative">
+      <nav
+        id="navbg"
+        class="navbar navbar-expand-sm fixed-bottom border rounded-3 shadow-sm m-2"
+      >
+        <ul class="navbar-nav flex-row justify-content-around w-100">
+          <li class="nav-item d-flex flex-column">
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-person-rolodex nav-icon-css"></i>
+            </button>
+            <p>Customers</p>
           </li>
-          <li class="nav-item w-100">
-              <a href="#" class="nav-link text-light pl-4">Proposals</a>
+          <li class="nav-item d-flex flex-column">
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-file-earmark-medical nav-icon-css"></i>
+            </button>
+            <p>Proposals</p>
           </li>
-          <li class="nav-item w-100">
-              <a href="#" class="nav-link text-light pl-4">All Invoices</a>
+          <li class="nav-item d-flex flex-column">
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-coin nav-icon-css"></i>
+            </button>
+            <p>Invoices</p>
           </li>
-          <li class="nav-item w-100">
-              <a href="#" class="nav-link text-light pl-4">Unpaid Invoices</a>
-          </li>
-      </ul>
-      <button type="button" class="btn btn-primary">Primary</button>
-    </nav>
-  </div>
+        </ul>
+      </nav>
+    </div>
+
+    <section id="customers-search-container-css" class="container">
+      <h1 class="text-center mt-3">Thomas FakeName</h1>
+
+      <div class="d-flex w-100 justify-content-around my-3">
+        <div class="align-self-center shadow-sm rounded">
+          <a class="btn btn-primary" href="tel:713-992-0916">
+            <i class="bi bi-telephone"></i>
+          </a>
+        </div>
+        <div class="align-self-center shadow-sm">
+          <a class="btn btn-primary" href="tel:713-992-0916">
+            <i class="bi bi-envelope"></i>
+          </a>
+        </div>
+        <div class="align-self-center shadow-sm">
+          <a class="btn btn-primary" href="tel:713-992-0916">
+            <i class="bi bi-pencil-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="d-flex w-100 justify-content-around">
+      <div class="dropdown">
+        <div>
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Invoices
+        </button>
+        <a class="btn btn-success" href="#">
+          <i class="bi bi-plus-circle"></i>
+        </a>
+      </div>
+        <table id="customer-table-css" class=dropdown-menu table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Thomas Jethrow</th>
+              <td>267-879-6116</td>
+              <td class=""><i class="bi bi-envelope"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+            </tr>
+          </tbody>
+        </table>
+      
+      </div>
+      </div>
+
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Proposals
+        </button>
+        <table id="customer-table-css" class=dropdown-menu table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Thomas Jethrow</th>
+              <td>267-879-6116</td>
+              <td class=""><i class="bi bi-envelope"></i></td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+            </tr>
+          </tbody>
+        </table>
+       
+      </div>
+
+    </div>
 
 
+    </section>
+
+    <!-- <table id="customer-table-css" class= table table-striped mw-8">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Thomas Jethrow</th>
+            <td>267-879-6116</td>
+            <td class=""><i class="bi bi-envelope"></i></td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+          </tr>
+        </tbody>
+      </table> -->
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script
