@@ -1,0 +1,104 @@
+<!-- Modal for pop up to add new invoice-->
+<!-- Customer, Date, Amount, Billing Address, Terms (In full upon completion, 50/50, Net45) -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New Invoice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group row">
+            <label for="new_invoice_customer_name" class="col-sm-2 col-form-label">Customer</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="new_invoice_customer_name" placeholder="equip with autocompelte from client list">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="new_invoice_date" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="new_invoice_date" placeholder="MM/DD/YYYY"
+              onfocus="(this.type='date')">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="new_invoice_amount" class="col-sm-2 col-form-label">Amount</label>
+            <div class="col-sm-10">
+              <input type="number" class="form-control" id="new_invoice_amount" placeholder="$0.00">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="new_invoice_adress" class="col-sm-2 col-form-label">Billing Address</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="new_invoice_adress" placeholder="equip with autocompelte from client list">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="new_invoice_terms" class="col-sm-2 col-form-label">Terms</label>
+            <div class="col-sm-10">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>In full upon completion</option>
+                <option value="2">1/2 Start 1/2 Finish</option>
+                <option value="3">Net45</option>
+              </select>
+
+
+
+            </div>
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Create</button>
+        <button type="button" class="btn btn-primary">Create and Email</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <section id="agg_proposal-container-css" class="container">
+      <!-- Button trigger modal -->
+      <h1 class="text-center mt-3">Invoices <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#exampleModal"></i></h1>
+          <!-- Start of proposals tab for individual clients -->
+            <!-- Job Name, Proposal Date, Job Location, Date of Plans, Payment Terms, Propsal Text, Roofing (y/n),  -->
+            <table id="customer-table-css" class=" table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
+              <!-- Job Name,  Invoice Date, Billing Info, Is Paid -->
+  
+              <tbody class="">
+                <thead>
+                <tr class="text-center">
+                  <th scope="row">Customer</th>
+                  <th scope="row">Date</th>
+                  <th scope="row">Amount</th>
+                  <th scope="row">Paid</th>
+                </tr>
+              </thead>
+                <tr class="">
+                  <td>Sam FakeName</td>
+                  <td>02/10/1953</td>
+                  <td>$10,000</td>
+                  <td class=""><i class="bi is_paid_button_css bi-check"></i></td>
+                </tr>
+                
+                <tr class="">
+                  <td>Sam FakeName</td>
+                  <td>02/10/1953</td>
+                  <td>$10,000</td>
+                  <td class=""><i class="bi is_not_paid_button_css bi-exclamation"></i></td>
+                </tr>
+
+                <tr class="">
+                  <td>Sam FakeName</td>
+                  <td>02/10/1953</td>
+                  <td>$10,000</td>
+                  <td class=""><i class="bi is_paid_button_css bi-check"></i></td>
+                </tr>
+                
+                
+              </tbody>
+            </table>
+
+    </section>
