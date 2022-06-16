@@ -11,6 +11,22 @@
     width: 95%;
     margin-left: 65px;
 }
+
+.is_paid_button_css {
+    font-size: 32px;
+    color: #198754;
+}
+.is_not_paid_button_css {
+    font-size: 32px;
+    color: #DC3545;
+
+}
+
+/* changes size of icons next to contact/invoices/proposals in individual clinets view */
+.nav-tabs {
+    font-size: .8em;
+}
+
 /* #customer-table-css {
 
 } */

@@ -18,10 +18,8 @@
 
   <body>
     <div class="container position-relative">
-      <nav
-        id="navbg"
-        class="navbar navbar-expand-sm fixed-bottom border rounded-3 shadow-sm m-2"
-      >
+      
+      <nav id="navbg" class="navbar navbar-expand-sm fixed-bottom border rounded-3 shadow-sm m-2">
         <ul class="navbar-nav flex-row justify-content-around w-100">
           <li class="nav-item d-flex flex-column">
             <button type="button" class="btn btn-primary">
@@ -45,131 +43,44 @@
       </nav>
     </div>
 
-    <section id="customers-search-container-css" class="container">
-      <h1 class="text-center mt-3">Thomas FakeName</h1>
-
-      <div class="d-flex w-100 justify-content-around my-3">
-        <div class="align-self-center shadow-sm rounded">
-          <a class="btn btn-primary" href="tel:713-992-0916">
-            <i class="bi bi-telephone"></i>
-          </a>
+    <section id="individual_customer-container-css" class="container">
+      <h1 class="text-center mt-3">Proposals</h1>
+          <!-- Start of proposals tab for individual clients -->
+          <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            <!-- Job Name, Proposal Date, Job Location, Date of Plans, Payment Terms, Propsal Text, Roofing (y/n),  -->
+            <table id="customer-table-css" class=" table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
+              <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Proposal Name</th>
+                  <td>267-879-6116</td>
+                  <td>267-879-6116</td>
+                </tr>
+                <tr>
+                  <th scope="row">Proposal Name</th>
+                  <td>267-879-6116</td>
+                  <td>267-879-6116</td>
+                </tr>
+                <tr>
+                  <th scope="row">Proposal Name</th>
+                  <td>267-879-6116</td>
+                  <td>267-879-6116</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="align-self-center shadow-sm">
-          <a class="btn btn-primary" href="tel:713-992-0916">
-            <i class="bi bi-envelope"></i>
-          </a>
-        </div>
-        <div class="align-self-center shadow-sm">
-          <a class="btn btn-primary" href="tel:713-992-0916">
-            <i class="bi bi-pencil-square"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="d-flex w-100 justify-content-around">
-      <div class="dropdown">
-        <div>
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Invoices
-        </button>
-        <a class="btn btn-success" href="#">
-          <i class="bi bi-plus-circle"></i>
-        </a>
-      </div>
-        <table id="customer-table-css" class=dropdown-menu table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Thomas Jethrow</th>
-              <td>267-879-6116</td>
-              <td class=""><i class="bi bi-envelope"></i></td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-            </tr>
-          </tbody>
-        </table>
-      
-      </div>
-      </div>
-
-      <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-          Proposals
-        </button>
-        <table id="customer-table-css" class=dropdown-menu table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Thomas Jethrow</th>
-              <td>267-879-6116</td>
-              <td class=""><i class="bi bi-envelope"></i></td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-            </tr>
-          </tbody>
-        </table>
-       
-      </div>
-
-    </div>
+  
 
 
     </section>
 
-    <!-- <table id="customer-table-css" class= table table-striped mw-8">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Thomas Jethrow</th>
-            <td>267-879-6116</td>
-            <td class=""><i class="bi bi-envelope"></i></td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-          </tr>
-        </tbody>
-      </table> -->
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script
