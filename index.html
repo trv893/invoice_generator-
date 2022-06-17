@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link rel="stylesheet" href="./css/main.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="./css/main.min.css" /> -->
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/custom.min.css" />
+    <!-- <link rel="stylesheet" href="./css/custom.min.css" /> -->
     <link
       rel="stylesheet"
       href="./Develop/node_modules/bootstrap-icons/font/bootstrap-icons.css"
@@ -16,7 +16,8 @@
     <title>proposal Generator</title>
   </head>
 
-  <body>
+  <body class="bg-light">
+    
     <div class="container position-relative">
       <nav
         id="navbg"
@@ -24,10 +25,10 @@
       >
         <ul class="navbar-nav flex-row justify-content-around w-100">
           <li class="nav-item d-flex flex-column">
-            <button type="button" class="btn btn-primary">
-              <i class="bi bi-person-rolodex nav-icon-css"></i>
-            </button>
-            <p>Customers</p>
+              <button type="button" class="btn btn-primary">
+                <i class="bi bi-person-rolodex nav-icon-css"></i>
+              </button>
+              <p>Customers</p>
           </li>
           <li class="nav-item d-flex flex-column">
             <button type="button" class="btn btn-primary">
@@ -39,13 +40,13 @@
             <button type="button" class="btn btn-primary">
               <i class="bi bi-coin nav-icon-css"></i>
             </button>
-            <p>proposals</p>
+            <p>Invoices</p>
           </li>
         </ul>
       </nav>
     </div>
 
-    <!-- Modal for pop up to add new proposal-->
+    <!-- Start Modal for pop up to add new proposal-->
     <!-- ***********!!!!!!!!!!! NEEDS TO BE DONE! customer name, date, location, Terms, proposal text -should be list of items with text and amount -->
     <div
       class="modal fade"
@@ -140,68 +141,45 @@
                 </div>
               </div>
               <div class="form-group row">
-                <div class="form-group">
-                  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Toggle top offcanvas</button>
-
-                    
-
-                  <!-- <div class="d-flex justify-content-around">
-                    <label for="new_proposal_item">Specs</label>
-                    <label for="new_proposal_item_amount">Amount</label>
-                  </div>
-                  <div class="d-flex">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="new_proposal_item"
-                      placeholder="Roofing work:..."
-                    />
-                    <input
-                      type="text"
-                      class="form-control me-1 w-25"
-                      id="new_proposal_item_amount"
-                      placeholder="$0.00"
-                      type="number"
-                      min="0.00"
-                      max="10000.00"
-                      step="0.01"
-                    />
-
-                    <div
-                      type="button"
-                      data-bs-container="body"
-                      data-bs-toggle="popover"
-                      data-bs-placement="top"
-                      data-bs-content="Top popover"
-                    >
-                      <i
-                        class="bi bi-plus-lg border border-success rounded-circle shadow-sm text-success bg-light fw-bolder mx-auto my-auto p-1"
-                        type="button"
-                        data-bs-container="body"
-                        data-bs-toggle="popover"
-                        data-bs-placement="top"
-                        data-bs-content="Top popover"
-                      ></i>
-                    </div>
-                  </div> -->
+                <div class="form-group d-flex justify-content-around">
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    Add Proposal Text
+                  </button>
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    Edit Proposal Text
+                  </button>
                 </div>
+                
               </div>
             </form>
           </div>
+<!-- *** Start of proposal offcanvas itimized list html *** -->
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Proposal Text</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            
+            <div class="offcanvas-body container w-90 h-100 d-flex flex-column justify-content-center">
+              
+                <textarea  class="w-100 h-75 mt-1 p-0" name="proposal_text" id="proposal_text" cols="30" rows="10" placeholder="Roofing Work: .... "></textarea>
+                <button type="button" class="btn btn-success w-25 mt-3 mx-auto">
+                  Save <i class="bi bi-save"></i>
+                </button>
+
+            </div>
+
+          </div>
+
+            <!-- *** End of proposal offcanvas itimized list html *** -->
 
          
 
           <div class="modal-footer d-flex justify-content-around">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
+
             <button type="button" class="btn btn-primary">Create</button>
             <button type="button" class="btn btn-primary">
-              Create <i class="bi bi-envelope"></i>
+               <i class="bi bi-envelope"></i>
             </button>
             <button type="button" class="btn btn-primary">
               <i class="bi bi-printer"></i>
@@ -210,6 +188,10 @@
         </div>
       </div>
     </div>
+
+<!-- End of Modal for new proposal -->
+
+<!-- Start of main agg proposals page -->
 
     <section id="agg_proposal-container-css" class="container">
       <h1 class="text-center mt-3">
@@ -258,18 +240,12 @@
       </table>
     </section>
 
-     <div class="offcanvas offcanvas-top " tabindex="-1"  id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-            <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasTopLabel">Offcanvas top</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-              ...
-            </div>
-          </div>
+<!-- End of main agg proposals page -->
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <script
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="./Develop/user_interface.js"></script>
+    <!-- <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
       integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
       crossorigin="anonymous"
@@ -278,7 +254,7 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
       integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
       crossorigin="anonymous"
-    ></script>
+    ></script> -->
     <!-- adds functionality to the bootstrap popover for proposal spec items -->
     <!-- <script>
       const popoverTriggerList = document.querySelectorAll(
