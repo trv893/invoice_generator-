@@ -34,3 +34,16 @@
 /* .nav-icon-css {
     padding: -8px;
 } */
+
+
+/* provides Z index for nested modal for layer 1 new proposal */
+/* #exampleModal{
+    z-index: 100;
+} */
+
+/* provides Z index for nested modal for proposal items */
+#offcanvasTop {
+    z-index: 400;
+    /* margin-top: 400px; */
+
+}

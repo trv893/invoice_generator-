@@ -13,7 +13,7 @@
       href="./Develop/node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
 
-    <title>Invoice Generator</title>
+    <title>proposal Generator</title>
   </head>
 
   <body>
@@ -39,14 +39,14 @@
             <button type="button" class="btn btn-primary">
               <i class="bi bi-coin nav-icon-css"></i>
             </button>
-            <p>Invoices</p>
+            <p>proposals</p>
           </li>
         </ul>
       </nav>
     </div>
 
-    <!-- Modal for pop up to add new invoice-->
-    <!-- Customer, Date, Amount, Billing Address, Terms (In full upon completion, 50/50, Net45) -->
+    <!-- Modal for pop up to add new proposal-->
+    <!-- ***********!!!!!!!!!!! NEEDS TO BE DONE! customer name, date, location, Terms, proposal text -should be list of items with text and amount -->
     <div
       class="modal fade"
       id="exampleModal"
@@ -57,7 +57,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New Invoice</h5>
+            <h5 class="modal-title" id="exampleModalLabel">New Proposal</h5>
             <button
               type="button"
               class="btn-close"
@@ -69,7 +69,7 @@
             <form>
               <div class="form-group row">
                 <label
-                  for="new_invoice_customer_name"
+                  for="new_proposal_customer_name"
                   class="col-sm-2 col-form-label"
                   >Customer</label
                 >
@@ -77,53 +77,55 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="new_invoice_customer_name"
+                    id="new_proposal_customer_name"
                     placeholder="equip with autocompelte from client list"
                   />
                 </div>
               </div>
               <div class="form-group row">
-                <label for="new_invoice_date" class="col-sm-2 col-form-label"
+                <label for="new_proposal_date" class="col-sm-2 col-form-label"
                   >Date</label
                 >
                 <div class="col-sm-10">
                   <input
                     type="date"
                     class="form-control"
-                    id="new_invoice_date"
+                    id="new_proposal_date"
                     placeholder="MM/DD/YYYY"
                     onfocus="(this.type='date')"
                   />
                 </div>
               </div>
               <div class="form-group row">
-                <label for="new_invoice_amount" class="col-sm-2 col-form-label"
+                <label for="new_proposal_amount" class="col-sm-2 col-form-label"
                   >Amount</label
                 >
                 <div class="col-sm-10">
                   <input
                     type="number"
                     class="form-control"
-                    id="new_invoice_amount"
+                    id="new_proposal_amount"
                     placeholder="$0.00"
                   />
                 </div>
               </div>
               <div class="form-group row">
-                <label for="new_invoice_adress" class="col-sm-2 col-form-label"
-                  >Billing Address</label
+                <label
+                  for="new_proposal_location"
+                  class="col-sm-2 col-form-label"
+                  >Location</label
                 >
                 <div class="col-sm-10">
                   <input
                     type="text"
                     class="form-control"
-                    id="new_invoice_adress"
+                    id="new_proposal_location"
                     placeholder="equip with autocompelte from client list"
                   />
                 </div>
               </div>
               <div class="form-group row">
-                <label for="new_invoice_terms" class="col-sm-2 col-form-label"
+                <label for="new_proposal_terms" class="col-sm-2 col-form-label"
                   >Terms</label
                 >
                 <div class="col-sm-10">
@@ -133,13 +135,63 @@
                   >
                     <option selected>In full upon completion</option>
                     <option value="2">1/2 Start 1/2 Finish</option>
-                    <option value="3">Something else here</option>
+                    <option value="3">Net45</option>
                   </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="form-group">
+                  <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Toggle top offcanvas</button>
+
+                    
+
+                  <!-- <div class="d-flex justify-content-around">
+                    <label for="new_proposal_item">Specs</label>
+                    <label for="new_proposal_item_amount">Amount</label>
+                  </div>
+                  <div class="d-flex">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="new_proposal_item"
+                      placeholder="Roofing work:..."
+                    />
+                    <input
+                      type="text"
+                      class="form-control me-1 w-25"
+                      id="new_proposal_item_amount"
+                      placeholder="$0.00"
+                      type="number"
+                      min="0.00"
+                      max="10000.00"
+                      step="0.01"
+                    />
+
+                    <div
+                      type="button"
+                      data-bs-container="body"
+                      data-bs-toggle="popover"
+                      data-bs-placement="top"
+                      data-bs-content="Top popover"
+                    >
+                      <i
+                        class="bi bi-plus-lg border border-success rounded-circle shadow-sm text-success bg-light fw-bolder mx-auto my-auto p-1"
+                        type="button"
+                        data-bs-container="body"
+                        data-bs-toggle="popover"
+                        data-bs-placement="top"
+                        data-bs-content="Top popover"
+                      ></i>
+                    </div>
+                  </div> -->
                 </div>
               </div>
             </form>
           </div>
-          <div class="modal-footer">
+
+         
+
+          <div class="modal-footer d-flex justify-content-around">
             <button
               type="button"
               class="btn btn-secondary"
@@ -149,7 +201,10 @@
             </button>
             <button type="button" class="btn btn-primary">Create</button>
             <button type="button" class="btn btn-primary">
-              Create and Email
+              Create <i class="bi bi-envelope"></i>
+            </button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-printer"></i>
             </button>
           </div>
         </div>
@@ -157,9 +212,8 @@
     </div>
 
     <section id="agg_proposal-container-css" class="container">
-      <!-- Button trigger modal -->
       <h1 class="text-center mt-3">
-        Invoices
+        Proposals
         <i
           class="bi btn btn-success bi-plus ms-2 shadow"
           data-bs-toggle="modal"
@@ -173,42 +227,46 @@
         class="table table-striped mw-8"
         aria-labelledby="dropdownMenuButton1"
       >
-        <!-- Job Name,  Invoice Date, Billing Info, Is Paid -->
-
-        <tbody class="">
-          <thead>
-            <tr class="text-center">
-              <th scope="row">Customer</th>
-              <th scope="row">Date</th>
-              <th scope="row">Amount</th>
-              <th scope="row">Paid</th>
-            </tr>
-          </thead>
-          <tr class="">
-            <td>Sam FakeName</td>
-            <td>02/10/1953</td>
-            <td>$10,000</td>
-            <td class=""><i class="bi is_paid_button_css bi-check"></i></td>
+        <thead>
+          <tr>
+            <th scope="col">Job</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Date</th>
+            <th scope="col">Amount</th>
           </tr>
-
-          <tr class="">
-            <td>Sam FakeName</td>
-            <td>02/10/1953</td>
-            <td>$10,000</td>
-            <td class="">
-              <i class="bi is_not_paid_button_css bi-exclamation"></i>
-            </td>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Proposal Name</th>
+            <td>John FakeName</td>
+            <td>267-879-6116</td>
+            <td>267-879-6116</td>
           </tr>
-
-          <tr class="">
-            <td>Sam FakeName</td>
-            <td>02/10/1953</td>
-            <td>$10,000</td>
-            <td class=""><i class="bi is_paid_button_css bi-check"></i></td>
+          <tr>
+            <th scope="row">Proposal Name</th>
+            <td>John FakeName</td>
+            <td>267-879-6116</td>
+            <td>267-879-6116</td>
+          </tr>
+          <tr>
+            <th scope="row">Proposal Name</th>
+            <td>John FakeName</td>
+            <td>267-879-6116</td>
+            <td>267-879-6116</td>
           </tr>
         </tbody>
       </table>
     </section>
+
+     <div class="offcanvas offcanvas-top " tabindex="-1"  id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasTopLabel">Offcanvas top</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              ...
+            </div>
+          </div>
 
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script
@@ -221,5 +279,14 @@
       integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
       crossorigin="anonymous"
     ></script>
+    <!-- adds functionality to the bootstrap popover for proposal spec items -->
+    <!-- <script>
+      const popoverTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="popover"]'
+      );
+      const popoverList = [...popoverTriggerList].map(
+        (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+      );
+    </script> -->
   </body>
 </html>

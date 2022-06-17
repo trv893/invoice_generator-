@@ -53,3 +53,15 @@ database
       console.log('listening at http://%s:%s', host, port);
     });
   });
+
+
+
+
+  // *** functionality for user interface code below ****
+
+  const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+  const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+
+  // *** end functionality code ***
+
