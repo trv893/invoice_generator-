@@ -1,0 +1,74 @@
+
+#navbg {
+    background-color: rgb(228, 226, 226);
+}
+#customers-search-container-css {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#cutomer-search-css {
+    width: 95%;
+    margin-left: 65px;
+}
+
+.is_paid_button_css {
+    font-size: 32px;
+    color: #198754;
+}
+.is_not_paid_button_css {
+    font-size: 32px;
+    color: #DC3545;
+
+}
+
+/* changes size of icons next to contact/invoices/proposals in individual clinets view */
+.nav-tabs {
+    font-size: .8em;
+}
+
+/* #customer-table-css {
+
+} */
+
+/* .nav-icon-css {
+    padding: -8px;
+} */
+
+
+/* provides Z index for nested modal for layer 1 new proposal */
+/* #exampleModal{
+    z-index: 100;
+} */
+
+/* provides Z index for nested modal for proposal items */
+#offcanvasTop {
+    z-index: 400;
+    /* margin-top: 400px; */
+
+}
+
+/* style for new invoice gen html */
+#invoice_item_quantity {
+    width: 40%;
+
+}
+
+#invoices_text {
+    height: 50%;
+}
+
+#add_invoice_item_container {
+    height: 30%;
+}
+/* #invoice_item_price {
+    
+} */
+
+#customer-table-css {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-clip-margin: 1px;
+  }
