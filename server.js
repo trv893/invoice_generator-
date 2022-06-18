@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 // import api routes in controller folder
-const apiRoutes = require(path.join(__dirname, 'Develop/controllers'));
+const apiRoutes = require(path.join(__dirname, '/Develop/controllers'));
 
 
 
