@@ -49,3 +49,26 @@
 
 }
 
+/* style for new invoice gen html */
+#invoice_item_quantity {
+    width: 40%;
+
+}
+
+#invoices_text {
+    height: 50%;
+}
+
+#add_invoice_item_container {
+    height: 30%;
+}
+/* #invoice_item_price {
+    
+} */
+
+#customer-table-css {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-clip-margin: 1px;
+  }
