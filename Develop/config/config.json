@@ -1,0 +1,9 @@
+{
+  "development": {
+    "database": "mcbriencontracting_4mysql",
+    "username": "root",
+    "password": "sqlPr0gress!",
+    "use_env_variable": false,
+    "dialect": "mysql"
+  }
+}
