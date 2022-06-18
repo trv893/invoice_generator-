@@ -1,5 +1,6 @@
 {
   "development": {
+    "host" : "localhost",
     "database": "mcbriencontracting_4mysql",
     "username": "root",
     "password": "sqlPr0gress!",
@@ -7,9 +8,10 @@
     "dialect": "mysql"
   },
   "production": {
-    "database": "mcbriencontracting_4mysql",
-    "username": "root",
-    "password": "sqlPr0gress!",
+    "host" : "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "database": "r63fpgin55mogmqs",
+    "username": "tsmhlrsssvnzwbmy",
+    "password": "smf6gz1xae8l7m6s",
     "use_env_variable": false,
     "dialect": "mysql"
   }
