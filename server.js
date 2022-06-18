@@ -25,6 +25,8 @@ app.use("/", apiRoutes);
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
 //Expose the {reporoot}/css folder to web browser clients at path http://x/css
 app.use('/css', express.static(path.join(__dirname, 'css')))
+//Expose the {reporoot}/uijs folder to web browser clients at path http://x/uijs
+app.use('/uijs', express.static(path.join(__dirname, 'uijs')))
 
 // GET request for index.html
 app.get('/', (req, res) => {
