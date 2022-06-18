@@ -4,6 +4,11 @@ const bodyParser = require('body-parser');
 // npm package that handles file paths
 const path = require('path');
 const fs = require('fs');
+// import api routes in controller folder
+const apiRoutes = require('./Develop/controllers');
+
+
+
 
 
 const PORT = process.env.PORT || 3001;
@@ -12,6 +17,9 @@ var uniqid = require('uniqid');
 
 const app = express();
 app.use(bodyParser.json());
+
+// expose apiRoutes to client
+app.use("/", apiRoutes);
 
 //Expose the {reporoot}/node_modules folder to web browser clients at path http://x/node_modules
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')))
