@@ -50,7 +50,7 @@ const renderCustomersFromData = async (d) => {
     var compiledHtml = template(d);
     // inject html for customer list
     $("#customerlist").html(compiledHtml)
-    console.log(compiledHtml);
+    // console.log(compiledHtml);
 };
 
 // await the customer search then render the data

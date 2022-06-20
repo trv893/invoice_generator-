@@ -21,6 +21,7 @@ const Op = db.Sequelize.Op;
 const PORT = process.env.PORT || 3001;
 // npm package that generates a unique id
 var uniqid = require("uniqid");
+const dbo_customers = require("./Develop/models/dbo_customers");
 
 const app = express();
 app.use(bodyParser.json());
@@ -66,19 +67,19 @@ app.get("/", function (req, res) {
 
 // ****BEGIN routing
 
-app.get("/customer", async (req, res) => {
-  // Send the rendered Handlebars.js template back as the response
-  try {
-    var c = await models.dbo_customers.findAll();
-    var d = c.map((v) => v.dataValues);
-    // console.log(c);
-    res.render("home", { data: d });
+// app.get("/customer", async (req, res) => {
+//   // Send the rendered Handlebars.js template back as the response
+//   try {
+//     var c = await models.dbo_customers.findAll();
+//     var d = c.map((v) => v.dataValues);
+//     // console.log(c);
+//     res.render("home", { data: d });
 
-    // res.status(200).json(c)
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+//     // res.status(200).json(c)
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 app.get("/api/customer", async (req, res) => {
   // Send the rendered Handlebars.js template back as the response
@@ -97,6 +98,87 @@ app.get("/api/customer", async (req, res) => {
 
   try {
     var c = await models.dbo_customers.findAll(findOpts);
+    var d = c.map((v) => v.dataValues);
+    // console.log(c);
+    // res.render('home', {data:d});
+    res.status(200).json(d);
+    // res.status(200).json(c)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// app.get("/proposal", async (req, res) => {
+//   // Send the rendered Handlebars.js template back as the response
+//   try {
+//     var c = await models.dbo_proposals.findAll();
+//     var d = c.map((v) => v.dataValues);
+//     // console.log(c);
+//     res.render("home", { data: d });
+
+//     // res.status(200).json(c)
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+
+app.get("/api/proposal", async (req, res) => {
+  // Send the rendered Handlebars.js template back as the response
+  var findOpts = {
+    include: [
+      {
+        model: models.dbo_customers,
+        as: "Proposal_Customer_dbo_customer",
+        where: {
+          [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
+          { LastName: { [Op.like]: req.query.q + "%" } }]
+        },
+      },
+    ],
+  };
+
+  if (req.query.q) {
+    findOpts.where = {
+      [Op.or]: [{ JobName: { [Op.like]: req.query.q + "%" } },{ JobName: { [Op.notLike]: req.query.q + "%" } }]
+    };
+  }
+
+  try {
+    var c = await models.dbo_proposals.findAll(findOpts);
+    var d = c.map((v) => v.dataValues);
+    // console.log(c);
+    // res.render('home', {data:d});
+    res.status(200).json(d);
+    // res.status(200).json(c)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+
+app.get("/api/invoice", async (req, res) => {
+  // Send the rendered Handlebars.js template back as the response
+  var findOpts = {
+    include: [
+      {
+        model: models.dbo_customers,
+        as: "Proposal_Customer_dbo_customer",
+        where: {
+          [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
+          { LastName: { [Op.like]: req.query.q + "%" } }]
+        },
+      },
+    ],
+  };
+
+  if (req.query.q) {
+    findOpts.where = {
+      [Op.or]: [{ JobName: { [Op.like]: req.query.q + "%" } },{ JobName: { [Op.notLike]: req.query.q + "%" } }]
+    };
+  }
+
+  try {
+    var c = await models.dbo_proposals.findAll(findOpts);
     var d = c.map((v) => v.dataValues);
     // console.log(c);
     // res.render('home', {data:d});
