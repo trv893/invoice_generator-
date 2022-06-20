@@ -1,14 +1,21 @@
-var customerList = [];
-const refreshCustomers = async () => {
-  var r = await fetch("api/customer");
-  var rd = await r.json();
-  customerList = rd;
+// creates abort controller for stopping fetch during autocomplete
+var controller = new AbortController();
+var signal = controller.signal;
 
-  console.log(rd);
+// calls the customer api with the contents of the customer search textbox as a query string 
+const searchCustomersApi = async () => {
+  var r = await fetch("api/customer?q=" + $("#customer_search").val(),
+   {
+    // signal used to abort fetch
+    signal: signal,
+  });
+  var rd = await r.json();
+  return rd;
+
 };
 
-//bs
-const renderCustomers = async () => {
+//receive an array of customer objects and render the html of the customer list based on received objects
+const renderCustomersFromData = async (d) => {
     var templateHtml = `
     {{#each this}}
     <div class="card">
@@ -37,18 +44,37 @@ const renderCustomers = async () => {
       </div>
     </div>
       {{/each}}
-            `
+      `
 
     var template = Handlebars.compile(templateHtml);
-    var compiledHtml = template(customerList);
+    var compiledHtml = template(d);
+    // inject html for customer list
     $("#customerlist").html(compiledHtml)
     console.log(compiledHtml);
-
 };
 
+// await the customer search then render the data
+const doCustomerSearchUi = async (d) => {
+    controller.abort();
+    controller = new AbortController()
+    signal = controller.signal
+    //Do new search
+    var customerList = await searchCustomersApi();
+    await renderCustomersFromData(customerList);
+    
+};
+
+// start the customer search 
 const startup = async () => {
-    await refreshCustomers();
-    await renderCustomers();
+    await doCustomerSearchUi();
 };
-
 startup();
+
+// keyup event for customer search 
+$("#customer_search").on('keyup', async function(e){
+   await doCustomerSearchUi();
+});
+// refreshes customer list when X button clears input in seach input
+$("#customer_search").on('search', async function(e){
+    await doCustomerSearchUi();
+});
