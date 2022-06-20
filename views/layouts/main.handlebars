@@ -54,39 +54,16 @@
       <div class="d-flex flex-row justify-content-end align-content-end mb-3">
         <div id="cutomer-search-css" class="input-group">
           <div class="form-outline">
-            <input type="search" id="form1" class="form-control" />
+            <input type="search" id="customer_search" class="form-control" />
           </div>
           <button type="button" class="btn btn-primary">
             <i class="bi bi-search"></i>
           </button>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-body">
-          <div class="d-flex justify-content-between p-md-1">
-            <div class="align-self-center shadow-sm rounded">
-              <a class="btn btn-light" href="tel:713-992-0916">
-                {{#each data}}
-            <tr>
-                <td>{{this.Id}}</td>
-            </tr>
-        {{/each}}
-              </a>
-            </div>
-            <div class="align-self-center shadow-sm rounded">
-              <a class="btn btn-primary" href="tel:713-992-0916">
-                <i class="bi bi-telephone"></i>
-              </a>
-            </div>
-            <div class="align-self-center shadow-sm">
-              <a class="btn btn-primary" href="tel:713-992-0916">
-                <i class="bi bi-envelope"></i>
-              </a>
-            </div>
-          </div>
+        <div id="customerlist">
+          
         </div>
-      </div>
     </section>
 
     <!-- ***End of Customers tab html -->
@@ -514,10 +491,10 @@
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     
-    {{!-- <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script> --}}
-    
-    {{!-- <script src="../../Develop/user_interface.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="../../uijs/ui.js"></script>
+    {{!-- <script src="../../Develop/user_interface.js"></script> --}}
+    <script src="../../uijs/customers.js"></script>
     <!-- <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
       integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"

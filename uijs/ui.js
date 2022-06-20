@@ -16,3 +16,4 @@ $( "#mainProposalsTab" ).click(function() {
     $("#agg_invoices-container-css").hide();
     $("#customers-search-container-css").hide();
     });
+
