@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 3001;
 // npm package that generates a unique id
 var uniqid = require("uniqid");
 const dbo_customers = require("./Develop/models/dbo_customers");
+const dbo_invoices = require("./Develop/models/dbo_invoices");
 
 const app = express();
 app.use(bodyParser.json());
@@ -161,31 +162,36 @@ app.get("/api/invoice", async (req, res) => {
   var findOpts = {
     include: [
       {
-        model: models.dbo_customers,
-        as: "Proposal_Customer_dbo_customer",
-        where: {
-          [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
-          { LastName: { [Op.like]: req.query.q + "%" } }]
-        },
+        model: models.dbo_invoicelines,
+        as: "dbo_invoicelines",
+        // where: {
+        //   [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
+        //   { LastName: { [Op.like]: req.query.q + "%" } }]
+        // },
       },
     ],
   };
 
   if (req.query.q) {
-    findOpts.where = {
-      [Op.or]: [{ JobName: { [Op.like]: req.query.q + "%" } },{ JobName: { [Op.notLike]: req.query.q + "%" } }]
+    findOpts = {
+      where: {
+        [Op.or]: [
+          { BillToName: { [Op.like]: req.query.q + "%" } }
+        ],
+      },
     };
   }
 
   try {
-    var c = await models.dbo_proposals.findAll(findOpts);
+    var c = await models.dbo_invoices.findAll(findOpts);
     var d = c.map((v) => v.dataValues);
-    // console.log(c);
+    console.log(d.dbo_invoicelines);
     // res.render('home', {data:d});
     res.status(200).json(d);
     // res.status(200).json(c)
   } catch (err) {
     res.status(500).json(err);
+    console.log(err)
   }
 });
 

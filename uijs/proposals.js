@@ -47,7 +47,6 @@ const renderproposalsFromData = async (d) => {
     var compiledHtml = template(d);
     // inject html for proposal list
     $("#proposalSeach").html(compiledHtml)
-    console.log(this);
 
 };
 
