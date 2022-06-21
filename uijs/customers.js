@@ -19,29 +19,32 @@ const renderCustomersFromData = async (d) => {
     var templateHtml = `
     {{#each this}}
     <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between p-md-1">
-          <div class="align-self-center shadow-sm rounded">
-            <a class="btn btn-light" href="tel:713-992-0916">
-              
-          <tr>
-              <td>{{this.FirstName}} {{this.LastName}}</td>
-          </tr>
-       
-            </a>
-          </div>
-          <div class="align-self-center shadow-sm rounded">
-            <a class="btn btn-primary" href="tel:{{this.Phone1}}">
-              <i class="bi bi-telephone"></i>
-            </a>
-          </div>
-          <div class="align-self-center shadow-sm">
-            <a class="btn btn-primary" href="mailto:{{this.Email}}">
-              <i class="bi bi-envelope"></i>
-            </a>
-          </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between p-md-1">
+                <div class="align-self-center d-flex flex-row">
+                    <a class="btn btn-light shadow-sm rounded" href="tel:713-992-0916">
+
+                        <tr>
+                            <td>{{this.FirstName}} {{this.LastName}}</td>
+
+                        </tr>
+
+                    </a>
+                    <h3 id="customer_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#newcustomerModal"><i class="bi bi-pencil ms-4 text-warning"></i></h3>
+                </div>
+               
+                    <div class="align-self-center shadow-sm rounded">
+                        <a class="btn btn-primary" href="tel:{{this.Phone1}}">
+                            <i class="bi bi-telephone"></i>
+                        </a>
+                    </div>
+                    <div class="align-self-center shadow-sm">
+                        <a class="btn btn-primary" href="mailto:{{this.Email}}">
+                            <i class="bi bi-envelope"></i>
+                        </a>
+                    </div>
+            </div>
         </div>
-      </div>
     </div>
       {{/each}}
       `

@@ -33,7 +33,7 @@ const renderproposalsFromData = async (d) => {
         <tbody>
         {{#each this}}
           <tr>
-            <th scope="row">{{this.JobName}}</th>
+            <th class="d-flex flex-row" scope="row">{{this.JobName}}<h5 id="edit_proposal_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#editProposalModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
             <td>{{this.Proposal_Customer_dbo_customer.FirstName}} {{this.Proposal_Customer_dbo_customer.LastName}}</td>
             <td>{{this.ProposalDate}}</td>
             <td>{{this.ProposalAmount}}</td>

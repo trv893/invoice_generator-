@@ -39,7 +39,7 @@ const renderinvoicesFromData = async (d) => {
     var templateHtml = `
     {{#each this}}
     <tr>
-        <th scope="row">{{this.BillToName}}</th>
+        <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 id="edit_invoice_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
         <td>{{this.InvoiceDate}}</td>
         <td>{{sum this}}</td>
     </tr>
