@@ -19,12 +19,10 @@ const searchinvoicesApi = async () => {
 Handlebars.registerHelper('sum', function totalAmount2 (d) {
   amount = 0;
   d.dbo_invoicelines.forEach(item => {
-    console.log(item.Amount)
-    if(item.Amount){
-      amount += parseFloat(item.Amount);
-      }
-    }
-  )
+    var iamt = (item.Amount) ? item.Amount : 0;
+    var iqty = (item.Quantity) ? item.Quantity : 1;
+    amount += iamt * iqty;
+  });
   return amount;
     // console.log(amount)
     

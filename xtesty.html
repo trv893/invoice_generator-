@@ -1,0 +1,133 @@
+<div class="modal fade" id="newInvoiceModal" tabindex="-1" aria-labelledby="newInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newInvoiceModalLabel">New Invoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="new_invoices_customer_name" class="col-sm-2 col-form-label">Customer</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_invoices_customer_name"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_date" class="col-sm-2 col-form-label">Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" id="new_invoices_date" placeholder="MM/DD/YYYY"
+                  onfocus="(this.type='date')" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_amount" class="col-sm-2 col-form-label">Amount</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="new_invoices_amount" placeholder="$0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_location" class="col-sm-2 col-form-label">Adress</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_invoices_location"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_terms" class="col-sm-2 col-form-label">Terms</label>
+              <div class="col-sm-10">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>In full upon completion</option>
+                  <option value="2">1/2 Start 1/2 Finish</option>
+                  <option value="3">Net45</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="form-group d-flex justify-content-around">
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#newInvoiceOffcanvas" aria-controls="newInvoiceOffcanvas">
+                  Edit invoice Text
+                </button>
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
+                  aria-controls="#">
+                  View Invoice Preview
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <!-- *** Start of invoice offcanvas itimized list html *** -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="newInvoiceOffcanvas"
+          aria-labelledby="newInvoiceOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="newInvoiceOffcanvasLabel">Invoice Body</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body container w-90 h-100 ">
+            <div id="add_invoice_item_container" class="d-flex flex-column justify-content-center">
+              <textarea class="w-100 px-2  mt-1 p-0" name="invoices_text" id="invoices_text"
+                placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+              <div class=" d-flex flex-row w-100 mt-1 ">
+
+                <div id="invoice_item_price" class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="text" class="form-control" aria-label="">
+                </div>
+                <div id="invoice_item_quantity" class="input-group mx-auto">
+                  <span class="input-group-text">#</span>
+                  <input type="text" class="form-control" aria-label="">
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
+                Add Item
+              </button>
+            </div>
+
+            <div id="added_invoice_line_items"
+              class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
+              <div class="container">
+                <div class="row">
+                  <div class="col">
+                    Column
+                  </div>
+                  <div class="col">
+                    Column
+                  </div>
+                  <div class="col">
+                    Column
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+        <!-- *** End of invoice offcanvas itimized list html *** -->
+
+
+
+        <div class="modal-footer d-flex justify-content-around">
+
+          <button type="button" class="btn btn-primary">Create</button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-envelope"></i>
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-printer"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End of Modal for new invoice -->
