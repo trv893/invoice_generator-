@@ -30,7 +30,7 @@ const renderCustomersFromData = async (d) => {
                         </tr>
 
                     </a>
-                    <h3 id="customer_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#newcustomerModal"><i class="bi bi-pencil ms-4 text-warning"></i></h3>
+                    <h3 id="customer_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#newcustomerModal"><i data-customer-id = {{this.Id}}="3" class="bi bi-pencil ms-4 text-warning"></i></h3>
                 </div>
                
                     <div class="align-self-center shadow-sm rounded">

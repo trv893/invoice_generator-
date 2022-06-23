@@ -185,7 +185,7 @@ app.get("/api/invoice", async (req, res) => {
   try {
     var c = await models.dbo_invoices.findAll(findOpts);
     var d = c.map((v) => v.dataValues);
-    console.log(d.dbo_invoicelines);
+    // console.log(d.dbo_invoicelines);
     // res.render('home', {data:d});
     res.status(200).json(d);
     // res.status(200).json(c)
