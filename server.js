@@ -96,6 +96,14 @@ app.get("/api/customer", async (req, res) => {
       },
     };
   }
+  // handles when id is specified in the fetch -as opposed to a sepreate get call
+  if (req.query.Id) {
+    findOpts = {
+      where: {
+        Id: req.query.Id
+      },
+    };
+  }
 
   try {
     var c = await models.dbo_customers.findAll(findOpts);
@@ -181,6 +189,14 @@ app.get("/api/invoice", async (req, res) => {
       },
     };
   }
+    // handles when id is specified in the fetch -as opposed to a sepreate get call
+    if (req.query.Id) {
+      findOpts = {
+        where: {
+          Id: req.query.Id
+        },
+      };
+    }
 
   try {
     var c = await models.dbo_invoices.findAll(findOpts);
@@ -192,6 +208,30 @@ app.get("/api/invoice", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
     console.log(err)
+  }
+});
+
+
+// POST route for updating custoemrs
+
+// update a Custoemr by id
+app.put('/api/customer/:id', async(req, res) => {
+  try {
+    const CustomerData = await models.dbo_customers.update(
+      req.body,
+      {
+        where: {
+          id: req.params.id
+        }
+      }
+    );
+    if (CustomerData[0] == 0){
+      res.status(404).json({message: "no records found to update with given id"});
+      return;
+    }
+    res.json(CustomerData   );
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

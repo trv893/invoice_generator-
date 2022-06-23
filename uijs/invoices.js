@@ -18,6 +18,13 @@ const searchinvoicesApi = async () => {
 // handlebars helper for summing amounts from invoicelines table for invoices used in rednerinvociesfromdata
 Handlebars.registerHelper('sum', function totalAmount2 (d) {
   amount = 0;
+
+  if (!(d.dbo_invoicelines))
+  {
+    return amount;
+
+  }
+
   d.dbo_invoicelines.forEach(item => {
     var iamt = (item.Amount) ? item.Amount : 0;
     var iqty = (item.Quantity) ? item.Quantity : 1;
@@ -37,7 +44,7 @@ const renderinvoicesFromData = async (d) => {
     var templateHtml = `
     {{#each this}}
     <tr>
-        <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 id="edit_invoice_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
+        <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 onclick="editInvoice(this)" id="edit_invoice_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
         <td>{{this.InvoiceDate}}</td>
         <td>{{sum this}}</td>
     </tr>
@@ -76,3 +83,27 @@ $("#invoice_search").on('search', async function(e){
     await doinvoiceSearchUi();
 });
 
+// calls the customer api with the contents of the customer id from edit button 
+const editInvoiceApi = async (id) => {
+  var r = await fetch(`api/customer?Id=${id}`,
+   {
+    // signal used to abort fetch
+    signal: signal,
+  });
+  var rd = await r.json();
+  return rd;
+
+};
+
+// creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the 
+// onclick="editInvoice(this)"
+const editInvoice =  async function renderEditInvoiceFromData (d) {
+  event.preventDefault();
+  var e = await editInvoiceApi ($(d).attr('data-customer-id'));
+    var edit_customer_html = `
+    `;
+    var template = Handlebars.compile(edit_customer_html);
+    var compilededitHtml = template(e[0]);
+    // inject html for customer list
+    $("#edit-customer-form").html(compilededitHtml)
+  };
