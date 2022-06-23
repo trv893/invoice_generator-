@@ -4,15 +4,15 @@
     <!-- ***********!!!!!!!!!!! NEEDS TO BE DONE! customer name, date, location, Terms, proposal text -should be list of items with text and amount -->
     <div
       class="modal fade"
-      id="exampleModal"
+      id="newProposalModal"
       tabindex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="newProposalModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New Proposal</h5>
+            <h5 class="modal-title" id="newProposalModalLabel">New Proposal</h5>
             <button
               type="button"
               class="btn-close"
@@ -96,10 +96,10 @@
               </div>
               <div class="form-group row">
                 <div class="form-group d-flex justify-content-around">
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#newProposalOffcanvas" aria-controls="newProposalOffcanvas">
                     Add Proposal Text
                   </button>
-                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                  <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#newProposalOffcanvas" aria-controls="newProposalOffcanvas">
                     Edit Proposal Text
                   </button>
                 </div>
@@ -108,9 +108,9 @@
             </form>
           </div>
 <!-- *** Start of proposal offcanvas itimized list html *** -->
-          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="newProposalOffcanvas" aria-labelledby="newProposalOffcanvasLabel">
             <div class="offcanvas-header">
-              <h5 class="offcanvas-title" id="offcanvasExampleLabel">Proposal Text</h5>
+              <h5 class="offcanvas-title" id="newProposalOffcanvasLabel">Proposal Text</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             
@@ -147,49 +147,3 @@
 
 <!-- Start of main agg proposals page -->
 
-    <section id="agg_proposal-container-css" class="container">
-      <h1 class="text-center mt-3">
-        Proposals
-        <i
-          class="bi btn btn-success bi-plus ms-2 shadow"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        ></i>
-      </h1>
-      <!-- Start of proposals tab for individual clients -->
-      <!-- Job Name, Proposal Date, Job Location, Date of Plans, Payment Terms, Propsal Text, Roofing (y/n),  -->
-      <table
-        id="customer-table-css"
-        class="table table-striped mw-8"
-        aria-labelledby="dropdownMenuButton1"
-      >
-        <thead>
-          <tr>
-            <th scope="col">Job</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Date</th>
-            <th scope="col">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Proposal Name</th>
-            <td>John FakeName</td>
-            <td>267-879-6116</td>
-            <td>267-879-6116</td>
-          </tr>
-          <tr>
-            <th scope="row">Proposal Name</th>
-            <td>John FakeName</td>
-            <td>267-879-6116</td>
-            <td>267-879-6116</td>
-          </tr>
-          <tr>
-            <th scope="row">Proposal Name</th>
-            <td>John FakeName</td>
-            <td>267-879-6116</td>
-            <td>267-879-6116</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>

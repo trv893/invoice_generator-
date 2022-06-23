@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="./css/main.min.css" /> -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <!-- <link rel="stylesheet" href="./css/custom.min.css" /> -->
+  <link rel="stylesheet" href="./node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+
+  <title>invoice Generator</title>
+</head>
+
+<body class="bg-light">
+
+  <div class="container position-relative">
+    <nav id="navbg" class="navbar navbar-expand-sm fixed-bottom border rounded-3 shadow-sm m-2 bg-primary bg-gradient">
+      <ul class="navbar-nav flex-row justify-content-around w-100 ">
+        <li class="nav-item d-flex flex-column">
+          <button id="mainCustomerTab" type="button" class="btn btn-light " data-bs-toggle="" href=".main_tab_toggle">
+            <h3><i class="bi bi-person-rolodex nav-icon-css"></i></h3>
+          </button>
+          <p>Customers</p>
+
+        </li>
+        <li class="nav-item d-flex flex-column">
+          <button id="mainProposalsTab" type="button" class="btn btn-success" data-bs-toggle="" href=".main_tab_toggle">
+            <h3><i class="bi bi-file-earmark-medical nav-icon-css"></i></h3>
+          </button>
+          <p>Proposals</p>
+        </li>
+        <li class="nav-item d-flex flex-column">
+          <button id="mainInvoicesTab" type="button" class="btn btn-light" data-bs-toggle="" href=".main_tab_toggle">
+            <h3><i class="bi bi-coin text-primary nav-icon-css"></i></h3>
+          </button>
+          <p>Invoices</p>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- *** Start of Customers tab html -->
+
+  <section id="customers-search-container-css" class="container collapse show main_tab_toggle">
+
+    <h1 class="text-center mt-3">Customers
+      <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newcustomerModal"></i>
+    </h1>
+
+    <div class="d-flex flex-row justify-content-end align-content-end mb-3">
+      <div id="cutomer-search-css" class="input-group">
+        <div class="form-outline">
+          <input type="search" id="customer_search" class="form-control" />
+        </div>
+        <button type="button" class="btn btn-primary">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+      <div>
+
+      </div>
+    </div>
+    <div id="customerlist">
+
+    </div>
+  </section>
+
+  <!-- ***End of Customers tab html -->
+
+  {{!-- START OF EDIT CUSTOMER MODAL --}}
+  <div class="modal fade" id="editcustomerModal" tabindex="-1" aria-labelledby="editcustomerModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editcustomerModalLabel">edit customer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="edit_customer_first_name" class="col-sm-2 col-form-label">First</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_first_name" placeholder="John" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_last_name" class="col-sm-2 col-form-label">Last</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_last_name" placeholder="Smith" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_company" class="col-sm-2 col-form-label">Company</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_company" placeholder="Company Name" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_adress" class="col-sm-2 col-form-label">Adress</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_adress" placeholder="Street Name" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_city" class="col-sm-2 col-form-label">City</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_city" placeholder="Oreland" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_state" class="col-sm-2 col-form-label">State</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_state" placeholder="PA" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_zip" class="col-sm-2 col-form-label">Zip</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_customer_zip" placeholder="Oreland" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_phone1" class="col-sm-2 col-form-label">Phone</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="edit_customer_phone1" placeholder="555-555-5555" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_phone2" class="col-sm-2 col-form-label">Phone</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="edit_customer_phone2" placeholder="555-555-5555" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_customer_email1" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="edit_customer_email1" placeholder="johnsmith@gmail.com" />
+              </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-around">
+              <button type="button" class="btn btn-primary">Create</button>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {{!-- END OF EDIT CUSTOMER MODAL --}}
+
+  {{!-- START OF NEW CUSTOMER MODAL --}}
+
+  <!-- Start Modal for pop up to add new customer-->
+  <!-- ***********!!!!!!!!!!! NEEDS TO BE DONE! customer name, date, location, Terms, customer text -should be list of items with text and amount -->
+  <div class="modal fade" id="newcustomerModal" tabindex="-1" aria-labelledby="newcustomerModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newcustomerModalLabel">New customer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="new_customer_first_name" class="col-sm-2 col-form-label">First</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_first_name" placeholder="John" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_last_name" class="col-sm-2 col-form-label">Last</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_last_name" placeholder="Smith" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_company" class="col-sm-2 col-form-label">Company</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_company" placeholder="Company Name" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_adress" class="col-sm-2 col-form-label">Adress</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_adress" placeholder="Street Name" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_city" class="col-sm-2 col-form-label">City</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_city" placeholder="Oreland" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_state" class="col-sm-2 col-form-label">State</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_state" placeholder="PA" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_zip" class="col-sm-2 col-form-label">Zip</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_customer_zip" placeholder="Oreland" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_phone1" class="col-sm-2 col-form-label">Phone</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="new_customer_phone1" placeholder="555-555-5555" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_phone2" class="col-sm-2 col-form-label">Phone</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="new_customer_phone2" placeholder="555-555-5555" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_customer_email1" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="new_customer_email1" placeholder="johnsmith@gmail.com" />
+              </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-around">
+              <button type="button" class="btn btn-primary">Create</button>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- END OF NEW CUSTOMER MODAL --}}
+
+
+  <!-- *** Start Modal for Proposals tab -->
+
+  <section id="agg_proposal-container-css" class="container collapse">
+    <h1 class="text-center mt-3">Proposals
+      <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newProposalModal"></i>
+    </h1>
+    <div id="proposal-search-css" class="input-group">
+      <div class="form-outline">
+        <input type="search" id="proposal_search" class="form-control" />
+      </div>
+      <button type="button" class="btn btn-primary">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+    <!-- Start of proposals tab for individual clients -->
+    <!-- Job Name, Proposal Date, Job Location, Date of Plans, Payment Terms, Propsal Text, Roofing (y/n),  -->
+    <div id="proposalSeach">
+
+    </div>
+
+  </section>
+
+  <!-- *** END Modal for Proposals tab ***CONTAINGS OFF CANVAS AS WELL-->
+
+  <!-- Start Modal for pop up to add new proposal-->
+  <div class="modal fade" id="newProposalModal" tabindex="-1" aria-labelledby="newProposalModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newProposalModalLabel">New Proposal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="new_proposal_customer_name" class="col-sm-2 col-form-label">Customer</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_proposal_customer_name"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_proposal_date" class="col-sm-2 col-form-label">Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" id="new_proposal_date" placeholder="MM/DD/YYYY"
+                  onfocus="(this.type='date')" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_proposal_amount" class="col-sm-2 col-form-label">Amount</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="new_proposal_amount" placeholder="$0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_proposal_location" class="col-sm-2 col-form-label">Location</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_proposal_location"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_proposal_terms" class="col-sm-2 col-form-label">Terms</label>
+              <div class="col-sm-10">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>In full upon completion</option>
+                  <option value="2">1/2 Start 1/2 Finish</option>
+                  <option value="3">Net45</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="form-group d-flex justify-content-around">
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#newProposalOffcanvas" aria-controls="newProposalOffcanvas">
+                  Edit Proposal Text
+                </button>
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#newProposalOffcanvas" aria-controls="newProposalOffcanvas">
+                  Preview Proposal
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <!-- *** Start of proposal offcanvas itimized list html *** -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="newProposalOffcanvas"
+          aria-labelledby="newProposalOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="newProposalOffcanvasLabel">Proposal Text</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body container w-90 h-100 ">
+            <div id="add_proposal_item_container" class="d-flex flex-column justify-content-center">
+              <textarea class="w-100 px-2  mt-2 p-0" name="proposals_text" id="proposals_text"
+                placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+              <div class=" d-flex flex-row w-100 mt-1 ">
+
+                <div id="proposal_item_price" class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="text" class="form-control" aria-label="">
+                </div>
+                <div id="proposal_item_quantity" class="input-group mx-auto">
+                  <span class="input-group-text">#</span>
+                  <input type="text" class="form-control" aria-label="">
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
+                Add Item
+              </button>
+            </div>
+
+            <div id="added_proposal_line_items"
+              class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
+              <div class="container">
+                <div class="row">
+                  <textarea id="####proposals_text" class="w-100 px-2  mt-2 p-0" name="proposals_text"
+                    placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+                  <div class=" d-flex flex-row w-100 mt-1 ">
+
+                    <div id="####proposal_item_price" class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                    <div id="####proposal_item_quantity" class="input-group mx-auto">
+                      <span class="input-group-text">#</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- *** End of proposal offcanvas itimized list html *** -->
+
+
+
+          <div class="modal-footer d-flex justify-content-around">
+
+            <button type="button" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-envelope"></i>
+            </button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-printer"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End of Modal for new proposal -->
+
+
+  <!-- START of EDIT proposal modal -->
+
+  <div class="modal fade" id="editProposalModal" tabindex="-1" aria-labelledby="editProposalModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editProposalModalLabel">Edit Proposal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="edit_proposal_customer_name" class="col-sm-2 col-form-label">Customer</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_proposal_customer_name"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_proposal_date" class="col-sm-2 col-form-label">Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" id="edit_proposal_date" placeholder="MM/DD/YYYY"
+                  onfocus="(this.type='date')" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_proposal_amount" class="col-sm-2 col-form-label">Amount</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="edit_proposal_amount" placeholder="$0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_proposal_location" class="col-sm-2 col-form-label">Location</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_proposal_location"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_proposal_terms" class="col-sm-2 col-form-label">Terms</label>
+              <div class="col-sm-10">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>In full upon completion</option>
+                  <option value="2">1/2 Start 1/2 Finish</option>
+                  <option value="3">Net45</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="form-group d-flex justify-content-around">
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#editProposalOffcanvas" aria-controls="editProposalOffcanvas">
+                  Edit Proposal Text
+                </button>
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#editproposalOffcanvas" aria-controls="editProposalOffcanvas">
+                  Preview Proposal
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <!-- *** Start of EDIT proposal offcanvas itimized list html *** -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="editProposalOffcanvas"
+          aria-labelledby="editproposalOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="editproposalOffcanvasLabel">Proposal Text</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body container w-90 h-100 ">
+            <!-- <div id="add_proposal_item_container" class="d-flex flex-column justify-content-center">
+                        <textarea class="w-100 px-2  mt-2 p-0" name="proposals_text" id="proposals_text"
+                            placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+                        <div class=" d-flex flex-row w-100 mt-1 ">
+
+                            <div id="proposal_item_price" class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" aria-label="">
+                            </div>
+                            <div id="proposal_item_quantity" class="input-group mx-auto">
+                                <span class="input-group-text">#</span>
+                                <input type="text" class="form-control" aria-label="">
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
+                            Add Item
+                        </button>
+                    </div> -->
+
+            <div id="added_proposal_line_items"
+              class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
+              <div class="container">
+                <div class="row">
+                  <textarea id="####proposals_text" class="w-100 px-2  mt-2 p-0" name="proposals_text"
+                    placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+                  <div class=" d-flex flex-row w-100 mt-1 ">
+
+                    <div id="####proposal_item_price" class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                    <div id="####proposal_item_quantity" class="input-group mx-auto">
+                      <span class="input-group-text">#</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-footer d-flex justify-content-around">
+
+            <button type="button" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-envelope"></i>
+            </button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-printer"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- *** End of EDIT proposal offcanvas itimized list html *** -->
+
+
+
+        <div class="modal-footer d-flex justify-content-around">
+
+          <button type="button" class="btn btn-primary">Create</button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-envelope"></i>
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-printer"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End of Modal for EDIT proposal -->
+
+
+  <!-- Start Modal for pop up to add new invoice ***^^contained offcanvas for proposals-->
+
+  <div class="modal fade" id="newInvoiceModal" tabindex="-1" aria-labelledby="newInvoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newInvoiceModalLabel">New Invoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="new_invoices_customer_name" class="col-sm-2 col-form-label">Customer</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_invoices_customer_name"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_date" class="col-sm-2 col-form-label">Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" id="new_invoices_date" placeholder="MM/DD/YYYY"
+                  onfocus="(this.type='date')" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_amount" class="col-sm-2 col-form-label">Amount</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="new_invoices_amount" placeholder="$0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_location" class="col-sm-2 col-form-label">Adress</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_invoices_location"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_invoices_terms" class="col-sm-2 col-form-label">Terms</label>
+              <div class="col-sm-10">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>In full upon completion</option>
+                  <option value="2">1/2 Start 1/2 Finish</option>
+                  <option value="3">Net45</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="form-group d-flex justify-content-around">
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#newInvoiceOffcanvas" aria-controls="newInvoiceOffcanvas">
+                  Edit invoice Text
+                </button>
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
+                  aria-controls="#">
+                  View Invoice Preview
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <!-- *** Start of invoice offcanvas itimized list html *** -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="newInvoiceOffcanvas"
+          aria-labelledby="newInvoiceOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="newInvoiceOffcanvasLabel">Invoice Body</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body container w-90 h-100 ">
+            <div id="add_invoice_item_container" class="d-flex flex-column justify-content-center">
+              <textarea class="w-100 px-2  mt-2 p-0" name="invoices_text" id="invoices_text"
+                placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+              <div class=" d-flex flex-row w-100 mt-1 ">
+
+                <div id="invoice_item_price" class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="text" class="form-control" aria-label="">
+                </div>
+                <div id="invoice_item_quantity" class="input-group mx-auto">
+                  <span class="input-group-text">#</span>
+                  <input type="text" class="form-control" aria-label="">
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
+                Add Item
+              </button>
+            </div>
+
+            <div id="added_invoice_line_items"
+              class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
+              <div class="container">
+                <div class="row">
+                  <textarea id="####invoices_text" class="w-100 px-2  mt-2 p-0" name="invoices_text"
+                    placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+                  <div class=" d-flex flex-row w-100 mt-1 ">
+
+                    <div id="####invoice_item_price" class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                    <div id="####invoice_item_quantity" class="input-group mx-auto">
+                      <span class="input-group-text">#</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer d-flex justify-content-around">
+
+            <button type="button" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-envelope"></i>
+            </button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-printer"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- *** End of invoice offcanvas itimized list html *** -->
+
+
+
+        <div class="modal-footer d-flex justify-content-around">
+
+          <button type="button" class="btn btn-primary">Create</button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-envelope"></i>
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-printer"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- End of Modal for new invoice -->
+
+
+  <!-- Start Modal for pop up to edit invoice ***^^contained offcanvas for proposals-->
+
+  <div class="modal fade" id="editInvoiceModal" tabindex="-1" aria-labelledby="editInvoiceModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editInvoiceModalLabel">Edit Invoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+              <label for="edit_invoices_customer_name" class="col-sm-2 col-form-label">Customer</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_invoices_customer_name"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_invoices_date" class="col-sm-2 col-form-label">Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" id="edit_invoices_date" placeholder="MM/DD/YYYY"
+                  onfocus="(this.type='date')" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_invoices_amount" class="col-sm-2 col-form-label">Amount</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="edit_invoices_amount" placeholder="$0.00" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_invoices_location" class="col-sm-2 col-form-label">Adress</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="edit_invoices_location"
+                  placeholder="equip with autocompelte from client list" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="edit_invoices_terms" class="col-sm-2 col-form-label">Terms</label>
+              <div class="col-sm-10">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>In full upon completion</option>
+                  <option value="2">1/2 Start 1/2 Finish</option>
+                  <option value="3">Net45</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="form-group d-flex justify-content-around">
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#editInvoiceOffcanvas" aria-controls="editInvoiceOffcanvas">
+                  Edit invoice Text
+                </button>
+                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
+                  aria-controls="#">
+                  View Invoice Preview
+                </button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <!-- *** Start of  Edit invoice offcanvas itimized list html *** -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="editInvoiceOffcanvas"
+          aria-labelledby="editInvoiceOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="editInvoiceOffcanvasLabel">Invoice Body</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body container w-90 h-100 ">
+
+            <div id="added_invoice_line_items"
+              class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
+              <div class="container">
+                <div class="row">
+                  <textarea id="####invoices_text" class="w-100 px-2  mt-2 p-0" name="invoices_text"
+                    placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
+                  <div class=" d-flex flex-row w-100 mt-1 ">
+
+                    <div id="####invoice_item_price" class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                    <div id="####invoice_item_quantity" class="input-group mx-auto">
+                      <span class="input-group-text">#</span>
+                      <input type="text" class="form-control" aria-label="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer d-flex justify-content-around">
+
+            <button type="button" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-envelope"></i>
+            </button>
+            <button type="button" class="btn btn-primary">
+              <i class="bi bi-printer"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- *** End of EDIT invoice offcanvas itimized list html *** -->
+
+
+
+        <div class="modal-footer d-flex justify-content-around">
+
+          <button type="button" class="btn btn-primary">Create</button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-envelope"></i>
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="bi bi-printer"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Start of main agg invoices page -->
+
+  <section id="agg_invoices-container-css" class="container collapse main_tab_toggle">
+    <h1 class="text-center mt-3">
+      Invoices
+      <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"></i>
+    </h1>
+
+    <div id="invoice-search-css" class="input-group">
+      <div class="form-outline">
+        <input type="search" id="invoice_search" class="form-control" />
+      </div>
+      <button type="button" class="btn btn-primary">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+    <!-- Start of invoices tab for individual clients -->
+    <!-- Job Name, invoice Date, Job Location, Date of Plans, Payment Terms, Propsal Text, Roofing (y/n),  -->
+    <table id="customer-table-css" class="table table-striped mw-8" aria-labelledby="dropdownMenuButton1">
+      <thead>
+        <tr>
+          <th scope="col">Customer</th>
+          <th scope="col">Date</th>
+          <th scope="col">Amount</th>
+        </tr>
+      </thead>
+      <tbody id="invoices">
+
+      </tbody>
+    </table>
+  </section>
+
+  <!-- End of main agg invoices page -->
+
+  <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.3.7/dist/latest/bootstrap-autocomplete.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  <script src="../../uijs/ui.js"></script>
+  {{!--
+  <script src="../../Develop/user_interface.js"></script> --}}
+  <script src="../../uijs/customers.js"></script>
+  <script src="../../uijs/proposals.js"></script>
+  <script src="../../uijs/invoices.js"></script>
+
+
+  <!-- <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+      integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
+      integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
+      crossorigin="anonymous"
+    ></script> -->
+  <!-- adds functionality to the bootstrap popover for invoice spec items -->
+  <!-- <script>
+      const popoverTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="popover"]'
+      );
+      const popoverList = [...popoverTriggerList].map(
+        (popoverTriggerEl) => new bootstrap.Popover(popoverTriggerEl)
+      );
+    </script> -->
+</body>
+
+</html>
