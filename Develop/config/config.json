@@ -6,5 +6,13 @@
     "password": "sqlPr0gress!",
     "use_env_variable": false,
     "dialect": "mysql"
+  },
+  "production": {
+    "host" : "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "database": "r63fpgin55mogmqs",
+    "username": "tsmhlrsssvnzwbmy",
+    "password": "smf6gz1xae8l7m6s",
+    "use_env_variable": false,
+    "dialect": "mysql"
   }
 }
