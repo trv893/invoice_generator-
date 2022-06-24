@@ -172,6 +172,7 @@ const searchEditCustomersApi = async (id) => {
   };
 
   // function that populates a json object with the user inputs for exsisting customer and posts them to customerdb
+  // called from the onclick="postCustomerUpdate(this)" attribute in the above handlebars html
 const postCustomerUpdate = async function (element) {
   // id value from update button on edit customer 
   var customerId = element.attributes[2].value;
@@ -179,13 +180,14 @@ const postCustomerUpdate = async function (element) {
   var htmldata = $(element).parentsUntil('div.modal-body')[1];
   // turns customer inputs into json for PUT
   var jsonbody = {
+    //Id: customerId,
     FirstName: htmldata[0].value,
     LastName: htmldata[1].value,
     Company: htmldata[2].value,
     Phone1: htmldata[7].value,
     Phone2: htmldata[8].value,
     Email: htmldata[4].value,
-    Adress: htmldata[3].value,
+    Address: htmldata[3].value,
     City: htmldata[4].value,
     State: htmldata[5].value,
     Zip: htmldata[6].value,

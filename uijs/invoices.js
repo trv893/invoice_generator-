@@ -35,6 +35,18 @@ Handlebars.registerHelper('sum', function totalAmount2 (d) {
     
 });
 
+
+// foramts date for use in handlebars
+Handlebars.registerHelper('formatTime', function (date) {
+  if (!date){
+    return
+  }
+ var d = new Date (date);
+  return d.toISOString().slice(0,10);;
+  // var mmnt = moment(date);
+  // return mmnt.format(format);
+});
+
 //receive an array of invoice objects and render the html of the invoice list based on received objects
 const renderinvoicesFromData = async (d) => {
   // console.log(d);
@@ -44,7 +56,7 @@ const renderinvoicesFromData = async (d) => {
     var templateHtml = `
     {{#each this}}
     <tr>
-        <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 onclick="editInvoice(this)" id="edit_invoice_{{this.Id}}" class=" start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
+        <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 onclick="editInvoice(this)" id="edit_invoice_{{this.Id}}" data-invoice-id="{{this.Id}}" class="start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
         <td>{{this.InvoiceDate}}</td>
         <td>{{sum this}}</td>
     </tr>
@@ -83,9 +95,9 @@ $("#invoice_search").on('search', async function(e){
     await doinvoiceSearchUi();
 });
 
-// calls the customer api with the contents of the customer id from edit button 
+// calls the invoice api with the contents of the invoice id from edit button 
 const editInvoiceApi = async (id) => {
-  var r = await fetch(`api/customer?Id=${id}`,
+  var r = await fetch(`api/invoice?Id=${id}`,
    {
     // signal used to abort fetch
     signal: signal,
@@ -95,15 +107,151 @@ const editInvoiceApi = async (id) => {
 
 };
 
+
+
+
 // creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the 
 // onclick="editInvoice(this)"
 const editInvoice =  async function renderEditInvoiceFromData (d) {
+  var myOptions = ["In full upon completion", "1/2 Start 1/2 Finish", "Net45"] 
   event.preventDefault();
-  var e = await editInvoiceApi ($(d).attr('data-customer-id'));
-    var edit_customer_html = `
+  var e = await editInvoiceApi ($(d).attr('data-invoice-id'));
+    var edit_invoice_html = `
+        <div class="form-group row">
+          <label for="edit_invoices_customer_name" class="col-sm-2 col-form-label">Bill To: </label>
+          <div class="col-sm-10">
+          <input type="text" class="billToName form-control" id="edit_invoices_customer_name"
+            value = "{{this.BillToName}}" />
+          </div>
+        </div>
+      <div class="form-group row">
+        <label for="edit_invoices_date" class="col-sm-2 col-form-label">Date</label>
+        <div class="col-sm-10">
+          <input type="date" class="billToDate form-control" id="edit_invoices_date" value="{{formatTime InvoiceDate}}"
+            onfocus="(this.type='date')" />
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="edit_invoices_amount" class="col-sm-2 col-form-label">Amount</label>
+        <div class="col-sm-10">
+          <input type="number" class="billToAmount form-control" id="edit_invoices_amount" value = "{{sum this}}" />
+        </div>
+      </div>
+      <div class="form-group row">
+          <label for="edit_invoice_adress" class="col-sm-2 col-form-label">Address</label>
+          <div class="col-sm-10">
+              <input type="text" class="billTo Adress form-control" id="edit_invoice_adress" value="{{this.BillToAddress}}" />
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for="edit_invoice_city" class="col-sm-2 col-form-label">City</label>
+          <div class="col-sm-10">
+              <input type="text" class="billToCity form-control" id="edit_invoice_city" value="{{this.BillToCity}}" />
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for="edit_invoice_state" class="col-sm-2 col-form-label">State</label>
+          <div class="col-sm-10">
+              <input type="text" class="billToState form-control" id="edit_invoice_state" value="{{this.BillToState}}" />
+          </div>
+      </div>
+      <div class="form-group row">
+          <label for="edit_invoice_zip" class="col-sm-2 col-form-label">Zip</label>
+          <div class="col-sm-10">
+              <input type="text" class="billToZip form-control" id="edit_invoice_zip" value="{{this.BillToZip}}" />
+          </div>
+      </div>
+      <div class="form-group row">
+        <label for="edit_invoices_terms" class="col-sm-2 col-form-label">Terms</label>
+        <div class="col-sm-10">
+          <select id="edit_bill_to_terms" class="billToTerms form-select" aria-label="Default select example">
+            <option selected">{{this.Terms}}</option>
+            <option>In full upon completion</option>
+            <option>1/2 Start 1/2 Finish</option>
+            <option>Net45</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="form-group d-flex justify-content-around">
+          <button id="billToEditButon" data-invoice-id="{{this.Id}}" class="billToEditButon btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#editInvoiceOffcanvas" aria-controls="editInvoiceOffcanvas">
+            Edit invoice Text
+          </button>
+          <button class="editPreviewInvoiceButton btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
+            aria-controls="#">
+            View Invoice Preview
+          </button>
+        </div>
+      </div>
     `;
-    var template = Handlebars.compile(edit_customer_html);
+
+    var invoiceLineItemsHtml = `
+      {{#each this.dbo_invoicelines}}
+      <div class = "editInvoiceLines border border-light shadow">
+        <textarea id="" data-edit-invoice-line-item-id = {{this.Id}} class="billToInvoiceLine w-100 px-2  mt-2 p-0" name="invoices_text"
+        >{{this.Description}}</textarea>
+        <div class=" d-flex flex-row w-100 mt-1 ">
+          <div data-edit-invoice-line-item-Amount = "{{this.Amount}}" class="input-group">
+            <span class="input-group-text">$</span>
+            <input value="{{this.Amount}}" type="text" class="billToItemAmount form-control" aria-label="" />
+          </div>
+          <div id="" data-edit-invoice-line-item-#="{{this.Quantity}}" class=" input-group mx-auto">
+            <span class="input-group-text">#</span>
+            <input value="{{this.Quantity}}" type="text" class="billToItemQuantity form-control" aria-label="" />
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    `;
+    var template = Handlebars.compile(edit_invoice_html);
+    var offCanvisEditTemp = Handlebars.compile(invoiceLineItemsHtml);
     var compilededitHtml = template(e[0]);
-    // inject html for customer list
-    $("#edit-customer-form").html(compilededitHtml)
+    var compilededitOffcanvasInvoiceLinesTemp = offCanvisEditTemp(e[0]) ;
+    // inject html for invoice list
+    $("#edit-invoice-form").html(compilededitHtml);
+    $("#edit-invoice-line-items").html(compilededitOffcanvasInvoiceLinesTemp);
   };
+
+    // function that populates a json object with the user inputs for exsisting invoice and posts them to invoicedb
+const postinvoiceUpdate = async function (element) {
+  var invoiceId = $("#billToEditButon").data("invoice-id")
+  var invLines = []
+  $(".editInvoiceLines").each(function (e, index) {
+    var editInvoiceLineJson =
+      {
+        Description: $(this).find(".billToInvoiceLine").val(),
+        Amount: $(this).find(".billToItemAmount").val(),
+        Quantity: (!$(this).find(".billToItemQuantity").val()) ? 1 : $(this).find(".billToItemQuantity").val()
+      }
+      invLines.push(editInvoiceLineJson);
+  })
+
+  var jsonEditInvoiceInputs = {
+      BillToName: $("#edit_invoices_customer_name").val(),
+      BillToDate: $("#edit_invoices_date").val(),
+      BillToAddress: $("#edit_invoice_adress").val(),
+      BillToCity: $("#edit_invoice_city").val(),
+      BillToState: $("#edit_invoice_state").val(),
+      BillToZip: $("#edit_invoice_zip").val(),
+      Terms: $("#edit_bill_to_terms").val(),
+      dbo_invoicelines: invLines
+  }
+  let url = `/api/invoice/${invoiceId}`;
+  let headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+  };
+  await fetch(
+    url,
+    {
+        method: "PUT",
+        headers: headers,
+        body: JSON.stringify(jsonEditInvoiceInputs)
+    },
+  ).then(async rawResponse =>{
+      var content = await rawResponse.json()
+      console.log(content);
+  });
+};
+  
