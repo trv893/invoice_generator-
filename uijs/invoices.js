@@ -298,9 +298,9 @@ const postCreateNewinvoice = async function () {
   // creates json body for new invoice post
   // ****add for loop to itt over invoice lines using invocielineitemsount to get data
   var newInvoiceLinesJson = {
-    Quantity:
-    Description:
-    Amount:
+    // Quantity:
+    // Description:
+    // Amount:
 
   };
   var jsonbody = {

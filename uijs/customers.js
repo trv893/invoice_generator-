@@ -49,8 +49,8 @@ const renderCustomersFromData = async (d) => {
             </div>
         </div>
     </div>
-      {{/each}}
-      `;
+      {{/each}}      
+      `;  
 
   var template = Handlebars.compile(templateHtml);
   var compiledHtml = template(d);

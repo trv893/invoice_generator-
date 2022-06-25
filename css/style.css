@@ -10,7 +10,8 @@
 
 #cutomer-search-css, #proposal-search-css, #invoice_search {
     width: 95%;
-    margin-left: 65px;
+    margin-left: 40%;
+    margin-right: 40%;
 }
 
 .is_paid_button_css {

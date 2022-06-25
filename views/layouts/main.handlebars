@@ -18,26 +18,26 @@
 <body class="bg-light">
 
   <div class="container position-relative">
-    <nav id="navbg" class="navbar navbar-expand-sm fixed-bottom border rounded-3 shadow-sm m-2 bg-primary bg-gradient">
+    <nav id="navbg" class="navbar navbar-expand-sm fixed-bottom border rounded-3 shadow p-lg-2 m-2 bg-primary bg-gradient col col-xl-8 mx-auto mb-4">
       <ul class="navbar-nav flex-row justify-content-around w-100 ">
-        <li class="nav-item d-flex flex-column">
-          <button id="mainCustomerTab" type="button" class="btn btn-light " data-bs-toggle="" href=".main_tab_toggle">
-            <h3><i class="bi bi-person-rolodex nav-icon-css"></i></h3>
+        <li class="nav-item d-flex flex-column pt-3">
+          <button id="mainCustomerTab" type="button" class="btn btn-light my-auto" data-bs-toggle="" href=".main_tab_toggle">
+            <h3><i class="bi bi-person-rolodex text-primary nav-icon-css"></i></h3>
           </button>
-          <p>Customers</p>
+          <p><strong>Customers</strong></p>
 
         </li>
-        <li class="nav-item d-flex flex-column">
-          <button id="mainProposalsTab" type="button" class="btn btn-success" data-bs-toggle="" href=".main_tab_toggle">
-            <h3><i class="bi bi-file-earmark-medical nav-icon-css"></i></h3>
+        <li class="nav-item d-flex flex-column pt-3">
+          <button id="mainProposalsTab" type="button" class="btn btn-light" data-bs-toggle="" href=".main_tab_toggle">
+            <h3><i class="bi bi-file-earmark-medical text-primary nav-icon-css"></i></h3>
           </button>
-          <p>Proposals</p>
+          <p><strong>Proposals</strong></p>
         </li>
-        <li class="nav-item d-flex flex-column">
+        <li class="nav-item d-flex flex-column pt-3">
           <button id="mainInvoicesTab" type="button" class="btn btn-light" data-bs-toggle="" href=".main_tab_toggle">
             <h3><i class="bi bi-coin text-primary nav-icon-css"></i></h3>
           </button>
-          <p>Invoices</p>
+          <p><strong>Invoices</strong></p>
         </li>
       </ul>
     </nav>
@@ -45,13 +45,13 @@
 
   <!-- *** Start of Customers tab html -->
 
-  <section id="customers-search-container-css" class="container collapse show main_tab_toggle">
+  <section id="customers-search-container-css" class="container collapse show main_tab_toggle mx-auto">
 
     <h1 class="text-center mt-3">Customers
       <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newcustomerModal"></i>
     </h1>
 
-    <div class="d-flex flex-row justify-content-end align-content-end mb-3">
+    <div class="justify-content-end align-content-end mb-3">
       <div id="cutomer-search-css" class="input-group">
         <div class="form-outline">
           <input type="search" id="customer_search" class="form-control" />
@@ -774,7 +774,7 @@
   <section id="agg_invoices-container-css" class="container collapse main_tab_toggle">
     <h1 class="text-center mt-3">
       Invoices
-      <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"></i>
+      {{!-- <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"></i> --}}
     </h1>
 
     <div id="invoice-search-css" class="input-group">
