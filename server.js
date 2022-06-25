@@ -259,12 +259,14 @@ app.put('/api/invoice/:id', async(req, res) => {
       }
     );
 
-
+      // delete old invoicelines before adding the updated ones to prevent redundancy
     await models.dbo_invoicelines.destroy({
       where: {
         InvoiceLines_Invoice: req.params.id
       }
     });
+    // loop over the items in the key InvoiceLines_Invoice key from the and create each line in dbo_invoicelines
+    // 
     req.body.dbo_invoicelines.forEach(async element => {
       element.InvoiceLines_Invoice = req.params.id
       await models.dbo_invoicelines.create(
@@ -327,7 +329,7 @@ app.post('/api/customer/', async(req, res) => {
 // update a proposal by id
 app.post('/api/proposal/', async(req, res) => {
   try {
-    req.body.DateCreated = Date.now()
+    req.body.DateCreated = Date.now();
     const proposalData = await models.dbo_proposals.create(
       req.body,
       {fields:Object.keys(req.body)}
@@ -346,11 +348,30 @@ app.post('/api/proposal/', async(req, res) => {
 // update a proposal by id
 app.post('/api/invoice/', async(req, res) => {
   try {
-    req.body.DateCreated = Date.now()
+    // create a invoicedate out of a now instance
+    req.body.InvoiceDate = Date.now();
+    // create new invoice from the invoice portion of the body, define the fields from the keys in said portion
     const invoiceData = await models.dbo_invoices.create(
-      req.body,
-      {fields:Object.keys(req.body)}
+      req.body.invoice,
+      {fields:Object.keys(req.body.invoice)}
     );
+    // get newly created invoice id
+    var newInvoiceId = await res.json();
+    // create series of new invoice lines from the elements stored in the dbo_invoicelines
+    //  key in the body using newInvoiceId as foriegn key for the invoice the invoice lines belong to
+    req.body.dbo_invoicelines.forEach(async element => {
+      element.InvoiceLines_Invoice = req.params.id
+      await models.dbo_invoicelines.create(
+        element,
+        {
+          where: {
+            InvoiceLines_Invoice: newInvoiceId
+          },
+          raw:true
+        }
+      );
+    });
+
     if (invoiceData[0] == 0){
       res.status(404).json({message: "no records found to update with given id"});
       return;

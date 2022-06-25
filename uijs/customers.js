@@ -34,7 +34,7 @@ const renderCustomersFromData = async (d) => {
                       <i onclick="newproposalshow(this)" data-new-customer-id="{{this.Id}}" data-proposal-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newProposalModal"> New Proposal</i>
                     </div>
                     <div class="align-self-center shadow-sm rounded">
-                      <i onclick="newinvoiceshow(this)" data-new-customer-id="{{this.Id}}" data-invoice-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"> New Invoice</i>
+                      <i onclick="newinvoiceshow(this)" data-new-invoice-customer-id="{{this.Id}}" data-invoice-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"> New Invoice</i>
                     </div>
                     <div class="align-self-center shadow-sm rounded">
                         <a class="btn btn-primary" href="tel:{{this.Phone1}}">
