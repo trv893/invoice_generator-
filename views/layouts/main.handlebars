@@ -232,7 +232,7 @@
             </div>
 
             <div class="modal-footer d-flex justify-content-around">
-              <button type="button" class="btn btn-primary">Create</button>
+              <button onclick="postCreateNewCustomer(this)" type="button" class="btn btn-primary">Create</button>
             </div>
 
         </div>
@@ -247,7 +247,6 @@
 
   <section id="agg_proposal-container-css" class="container collapse">
     <h1 class="text-center mt-3">Proposals
-      <i class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newProposalModal"></i>
     </h1>
     <div id="proposal-search-css" class="input-group">
       <div class="form-outline">
@@ -281,8 +280,13 @@
             <div class="form-group row">
               <label for="new_proposal_customer_name" class="col-sm-2 col-form-label">Customer</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="new_proposal_customer_name"
-                  placeholder="equip with autocompelte from client list" />
+                <input disabled type="text" class="form-control" id="new_proposal_customer_name"/>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_proposal_jobname" class="col-sm-2 col-form-label">Job Name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="new_proposal_jobname" />
               </div>
             </div>
             <div class="form-group row">
@@ -295,25 +299,44 @@
             <div class="form-group row">
               <label for="new_proposal_amount" class="col-sm-2 col-form-label">Amount</label>
               <div class="col-sm-10">
-                <input type="number" class="form-control" id="new_proposal_amount" placeholder="$0.00" />
+                <input type="number" class="form-control" id="new_proposal_amount"/>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="new_proposal_phone" class="col-sm-2 col-form-label">Job Phone</label>
+              <div class="col-sm-10">
+                <input type="tel" class="form-control" id="new_proposal_phone"/>
               </div>
             </div>
             <div class="form-group row">
               <label for="new_proposal_location" class="col-sm-2 col-form-label">Location</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="new_proposal_location"
-                  placeholder="equip with autocompelte from client list" />
+                <input type="text" class="form-control" id="new_proposal_location"/>
               </div>
             </div>
             <div class="form-group row">
+              <label for="new_proposal_jobdate" class="col-sm-2 col-form-label">Job Date</label>
+              <div class="col-sm-10">
+                <input type="date" class="form-control" id="new_proposal_jobdate" placeholder="MM/DD/YYYY"
+                  onfocus="(this.type='date')" />
+              </div>
+            </div>
+            
+            <div class="form-group row">
               <label for="new_proposal_terms" class="col-sm-2 col-form-label">Terms</label>
               <div class="col-sm-10">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected>In full upon completion</option>
-                  <option value="2">1/2 Start 1/2 Finish</option>
-                  <option value="3">Net45</option>
+                <select id="new_proposal_terms" class="form-select" aria-label="Default select example">
+                  <option selected="true">In full upon completion</option>
+                  <option>1/2 Start 1/2 Finish</option>
+                  <option>Net45</option>
                 </select>
               </div>
+            </div>
+            <div class="form-group row">
+                <label for="new_proposal_roofing" class="col-sm-2 col-form-label">Roofing </label>
+                <div class="col-sm-10">
+                    <input type="checkbox" class="" id="new_proposal_roofing"/>
+                </div>
             </div>
             <div class="form-group row">
               <div class="form-group d-flex justify-content-around">
@@ -339,47 +362,18 @@
           </div>
 
           <div class="offcanvas-body container w-90 h-100 ">
-            <div id="add_proposal_item_container" class="d-flex flex-column justify-content-center">
-              <textarea class="w-100 px-2  mt-2 p-0" name="proposals_text" id="proposals_text"
-                placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
-              <div class=" d-flex flex-row w-100 mt-1 ">
 
-                <div id="proposal_item_price" class="input-group">
-                  <span class="input-group-text">$</span>
-                  <input type="text" class="form-control" aria-label="">
-                </div>
-                <div id="proposal_item_quantity" class="input-group mx-auto">
-                  <span class="input-group-text">#</span>
-                  <input type="text" class="form-control" aria-label="">
-                </div>
-              </div>
-
-              <button type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
-                Add Item
-              </button>
-            </div>
-
-            <div id="added_proposal_line_items"
-              class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
-              <div class="container">
+              <div id="edit-proposal-line-text-area" class="container">
                 <div class="row">
-                  <textarea id="####proposals_text" class="w-100 px-2  mt-2 p-0" name="proposals_text"
-                    placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
-                  <div class=" d-flex flex-row w-100 mt-1 ">
-
-                    <div id="####proposal_item_price" class="input-group">
-                      <span class="input-group-text">$</span>
-                      <input type="text" class="form-control" aria-label="">
-                    </div>
-                    <div id="####proposal_item_quantity" class="input-group mx-auto">
-                      <span class="input-group-text">#</span>
-                      <input type="text" class="form-control" aria-label="">
-                    </div>
-                  </div>
+                  <textarea
+                    data-new-proposal-text=""
+                    data-new-proposal-customer-id=""
+                    id="new_proposals_text"
+                    class="w-100 px-2 mt-2 p-0"
+                    name="proposals_text"
+                  ></textarea>
                 </div>
               </div>
-            </div>
-
           </div>
 
           <!-- *** End of proposal offcanvas itimized list html *** -->
@@ -387,8 +381,7 @@
 
 
           <div class="modal-footer d-flex justify-content-around">
-
-            <button type="button" class="btn btn-primary">Create</button>
+            <button onclick="postCreateNewproposal(this)" id="post-trigger-new-proposal-btn" type="button" class="btn btn-primary">Create</button>
             <button type="button" class="btn btn-primary">
               <i class="bi bi-envelope"></i>
             </button>
@@ -414,8 +407,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
-            <div class="form-group row">
+          <form id="edit-proposal-form">
+            {{!-- <div class="form-group row">
               <label for="edit_proposal_customer_name" class="col-sm-2 col-form-label">Customer</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" id="edit_proposal_customer_name"
@@ -464,7 +457,7 @@
                 </button>
               </div>
 
-            </div>
+            </div> --}}
           </form>
         </div>
         <!-- *** Start of EDIT proposal offcanvas itimized list html *** -->
@@ -498,8 +491,8 @@
 
             <div id="added_proposal_line_items"
               class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
-              <div class="container">
-                <div class="row">
+              <div id="edit-proposal-line-text-area" class="container">
+                {{!-- <div class="row">
                   <textarea id="####proposals_text" class="w-100 px-2  mt-2 p-0" name="proposals_text"
                     placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
                   <div class=" d-flex flex-row w-100 mt-1 ">
@@ -513,7 +506,7 @@
                       <input type="text" class="form-control" aria-label="">
                     </div>
                   </div>
-                </div>
+                </div> --}}
               </div>
             </div>
 
@@ -521,7 +514,7 @@
 
           <div class="modal-footer d-flex justify-content-around">
 
-            <button type="button" class="btn btn-primary">Create</button>
+            <button onclick="postproposalUpdate(this)" type="button" class="btn btn-primary">Create</button>
             <button type="button" class="btn btn-primary">
               <i class="bi bi-envelope"></i>
             </button>
@@ -567,8 +560,8 @@
             <div class="form-group row">
               <label for="new_invoices_customer_name" class="col-sm-2 col-form-label">Customer</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="new_invoices_customer_name"
-                  placeholder="equip with autocompelte from client list" />
+                <input disabled type="text" class="form-control" id="new_invoices_customer_name"
+                  />
               </div>
             </div>
             <div class="form-group row">
@@ -587,8 +580,7 @@
             <div class="form-group row">
               <label for="new_invoices_location" class="col-sm-2 col-form-label">Adress</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="new_invoices_location"
-                  placeholder="equip with autocompelte from client list" />
+                <input type="text" class="form-control" id="new_invoices_location"/>
               </div>
             </div>
             <div class="form-group row">
@@ -626,43 +618,43 @@
 
           <div class="offcanvas-body container w-90 h-100 ">
             <div id="add_invoice_item_container" class="d-flex flex-column justify-content-center">
-              <textarea class="w-100 px-2  mt-2 p-0" name="invoices_text" id="invoices_text"
+              <textarea class="w-100 px-2  mt-2 p-0" name="newinvoices_text1" id="newinvoices_text1"
                 placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
               <div class=" d-flex flex-row w-100 mt-1 ">
 
-                <div id="invoice_item_price" class="input-group">
+                <div id="invoice_item_price1" class="input-group">
                   <span class="input-group-text">$</span>
-                  <input type="text" class="form-control" aria-label="">
+                  <input id="new-invoice-list-item-price-1" type="text" class="form-control" aria-label="">
                 </div>
-                <div id="invoice_item_quantity" class="input-group mx-auto">
+                <div id="invoice_item_quantity1" class="input-group mx-auto">
                   <span class="input-group-text">#</span>
-                  <input type="text" class="form-control" aria-label="">
+                  <input id="new-invoice-list-item-quantity-1" type="text" class="form-control" aria-label="">
                 </div>
               </div>
 
-              <button type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
+              <button id="newInvoiceAddLineItemButton" type="button" class="btn btn-success w-50 mt-2 shadow-sm mx-auto">
                 Add Item
               </button>
             </div>
 
             <div id="added_invoice_line_items"
               class="container overflow-scroll  border border-secondary rounded w-100 h-50 mt-4">
-              <div class="container">
-                <div class="row">
-                  <textarea id="####invoices_text" class="w-100 px-2  mt-2 p-0" name="invoices_text"
+              <div id="addedInvoiceListItems" class="container">
+                {{!-- <div class="row">
+                  <textarea id="newinvoices_text2" class="w-100 px-2  mt-2 p-0" name="newinvoices_text2"
                     placeholder="Type an individual item, its cost per unit and the quantity of units then press add item button"></textarea>
                   <div class=" d-flex flex-row w-100 mt-1 ">
 
                     <div id="####invoice_item_price" class="input-group">
                       <span class="input-group-text">$</span>
-                      <input type="text" class="form-control" aria-label="">
+                      <input id="new-invoice-list-item-price-2" type="text" class="form-control" aria-label="">
                     </div>
                     <div id="####invoice_item_quantity" class="input-group mx-auto">
                       <span class="input-group-text">#</span>
-                      <input type="text" class="form-control" aria-label="">
+                      <input id="new-invoice-list-item-quantity-2" type="text" class="form-control" aria-label="">
                     </div>
                   </div>
-                </div>
+                </div> --}}
               </div>
             </div>
 

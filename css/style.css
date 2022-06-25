@@ -72,3 +72,10 @@
     overflow-y: scroll;
     overflow-clip-margin: 1px;
   }
+
+@media screen and (min-width: 768px) {
+    .offcanvas {
+        width: 50vw !important;
+
+    }
+}

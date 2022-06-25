@@ -107,13 +107,9 @@ const editInvoiceApi = async (id) => {
 
 };
 
-
-
-
 // creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the 
 // onclick="editInvoice(this)"
 const editInvoice =  async function renderEditInvoiceFromData (d) {
-  var myOptions = ["In full upon completion", "1/2 Start 1/2 Finish", "Net45"] 
   event.preventDefault();
   var e = await editInvoiceApi ($(d).attr('data-invoice-id'));
     var edit_invoice_html = `
@@ -204,6 +200,7 @@ const editInvoice =  async function renderEditInvoiceFromData (d) {
       </div>
       {{/each}}
     `;
+    // compile and inject both html variables into main.handlebars
     var template = Handlebars.compile(edit_invoice_html);
     var offCanvisEditTemp = Handlebars.compile(invoiceLineItemsHtml);
     var compilededitHtml = template(e[0]);
@@ -215,6 +212,7 @@ const editInvoice =  async function renderEditInvoiceFromData (d) {
 
     // function that populates a json object with the user inputs for exsisting invoice and posts them to invoicedb
 const postinvoiceUpdate = async function (element) {
+  // grabs id from create button (offcanvas i belive) data attribute
   var invoiceId = $("#billToEditButon").data("invoice-id")
   var invLines = []
   $(".editInvoiceLines").each(function (e, index) {
@@ -225,7 +223,7 @@ const postinvoiceUpdate = async function (element) {
         Quantity: (!$(this).find(".billToItemQuantity").val()) ? 1 : $(this).find(".billToItemQuantity").val()
       }
       invLines.push(editInvoiceLineJson);
-  })
+  });
 
   var jsonEditInvoiceInputs = {
       BillToName: $("#edit_invoices_customer_name").val(),
@@ -236,7 +234,9 @@ const postinvoiceUpdate = async function (element) {
       BillToZip: $("#edit_invoice_zip").val(),
       Terms: $("#edit_bill_to_terms").val(),
       dbo_invoicelines: invLines
-  }
+      // Invoice_Customer: newInvoiceCustomerId
+
+  };
   let url = `/api/invoice/${invoiceId}`;
   let headers = {
       'Accept': 'application/json',
@@ -251,7 +251,83 @@ const postinvoiceUpdate = async function (element) {
     },
   ).then(async rawResponse =>{
       var content = await rawResponse.json()
-      console.log(content);
+      // console.log(content);
   });
 };
+
+// populates the customer name in the new invoice modal
+var newInvoiceCustomerId = "";
+const newinvoiceshow = function(e){
+  newPropsalCustomerId = $(e).data('new-customer-id');
+  $("#new_invoices_customer_name").val($(e).data('invoice-customer-name'))
+};
+
+// adds each now invoice line item to new field in new invoice offcanvas in main.handlebars
+  // tracks how many list items are added (starts at 1 for IDs to not overlap)
+var invoiceLineItemsCount = 1;
+$("#newInvoiceAddLineItemButton").click(function (){
+  // increments the invoiceLineItemsCount er
+  invoiceLineItemsCount += 1;
+  // appends the html for an added invoiceLineItem to the #addedinvocielistitems in main.handlebars
+  $("#addedInvoiceListItems").append(`
+  <div class="row">
+    <textarea id="newinvoices_text${invoiceLineItemsCount}" class="w-100 px-2  mt-2 p-0" name="newinvoices_text2">${$("#newinvoices_text1").val()}</textarea>
+    <div class=" d-flex flex-row w-100 mt-1">
+      <div class="input-group">
+        <span class="input-group-text">$</span>
+        <input id="new-added-invoice-list-item-price-${invoiceLineItemsCount}" value=${$("#new-invoice-list-item-price-1").val()} type="text" class="form-control" aria-label="">
+      </div>
+      <div id="####invoice_item_quantity" class="input-group mx-auto">
+        <span class="input-group-text">#</span>
+        <input id="new-added-invoice-list-item-quantity-${invoiceLineItemsCount}" value=${$("#new-invoice-list-item-quantity-1").val()} type="text" class="form-control" aria-label="">
+      </div>
+    </div>
+  </div>
+  `);
+  // clears out the add new invoice line text items so a new line item may be added
+  $("#newinvoices_text1").val("");
+  $("#new-invoice-list-item-price-1").val("");
+  $("#new-invoice-list-item-quantity-1").val("")
   
+  } 
+);
+
+
+// api for creating new invoice
+const postCreateNewinvoice = async function () {
+  // creates json body for new invoice post
+  // ****add for loop to itt over invoice lines using invocielineitemsount to get data
+  var newInvoiceLinesJson = {
+    Quantity:
+    Description:
+    Amount:
+
+  };
+  var jsonbody = {
+    // BillToName: $("#new_invoices_customer_name").val(),
+      BillToDate: $("#new_invoices_date").val(),
+      BillToAddress: $("#new_invoice_adress").val(),
+      BillToCity: $("#new_invoice_city").val(),
+      BillToState: $("#new_invoice_state").val(),
+      BillToZip: $("#new_invoice_zip").val(),
+      Terms: $("#new_bill_to_terms").val(),
+      dbo_invoicelines: invLines,
+      Invoice_Customer: newInvoiceCustomerId
+  };
+  var 
+  let url = `/api/invoice/`;
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  // let r = await fetch(url, {
+  //   method: "POST",
+  //   headers: headers,
+  //   body: JSON.stringify(jsonbody),
+  // })
+  
+  // var content = await r.json();
+  // console.log(content);  
+};
+

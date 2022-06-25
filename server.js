@@ -138,18 +138,30 @@ app.get("/api/proposal", async (req, res) => {
       {
         model: models.dbo_customers,
         as: "Proposal_Customer_dbo_customer",
-        where: {
-          [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
-          { LastName: { [Op.like]: req.query.q + "%" } }]
-        },
+        // where: {
+        //   [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
+        //   { LastName: { [Op.like]: req.query.q + "%" } }]
+        // },
       },
     ],
   };
 
   if (req.query.q) {
     findOpts.where = {
-      [Op.or]: [{ JobName: { [Op.like]: req.query.q + "%" } },{ JobName: { [Op.notLike]: req.query.q + "%" } }]
+      [Op.or]: [
+        { JobName: { [Op.like]: req.query.q + "%" } },
+        { JobName: { [Op.notLike]: req.query.q + "%" } },
+        { FirstName: { [Op.like]: req.query.q + "%" } },
+        { LastName: { [Op.like]: req.query.q + "%" } }
+        ]
     };
+  }
+
+  // handles when id is specified in the fetch -as opposed to a sepreate get call
+  if (req.query.Id) {
+    findOpts.where = {
+        Id: req.query.Id
+      }
   }
 
   try {
@@ -234,9 +246,7 @@ app.put('/api/customer/:id', async(req, res) => {
   }
 });
 
-
 // POST route for updating invoice
-
 // update a invoice by id
 app.put('/api/invoice/:id', async(req, res) => {
   try {
@@ -271,6 +281,86 @@ app.put('/api/invoice/:id', async(req, res) => {
     res.status(500).json(err);
   }
 });
+
+// POST route for updating proposal
+// update a proposal by id
+app.put('/api/proposal/:id', async(req, res) => {
+  try {
+    const proposalData = await models.dbo_proposals.update(
+      req.body,
+      {
+        where: {
+          Id: parseInt(req.params.id)
+        }
+      }
+    );
+    if (proposalData[0] == 0){
+      res.status(404).json({message: "no records found to update with given id"});
+      return;
+    }
+    res.json(proposalData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// POST route for updating customer
+// update a customer by id
+app.post('/api/customer/', async(req, res) => {
+  try {
+    req.body.DateCreated = Date.now()
+    const customerData = await models.dbo_customers.create(
+      req.body,
+      {fields:Object.keys(req.body)}
+    );
+    if (customerData[0] == 0){
+      res.status(404).json({message: "no records found to update with given id"});
+      return;
+    }
+    res.json(customerData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// POST route for updating proposal
+// update a proposal by id
+app.post('/api/proposal/', async(req, res) => {
+  try {
+    req.body.DateCreated = Date.now()
+    const proposalData = await models.dbo_proposals.create(
+      req.body,
+      {fields:Object.keys(req.body)}
+    );
+    if (proposalData[0] == 0){
+      res.status(404).json({message: "no records found to update with given id"});
+      return;
+    }
+    res.json(proposalData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// POST route for updating proposal
+// update a proposal by id
+app.post('/api/invoice/', async(req, res) => {
+  try {
+    req.body.DateCreated = Date.now()
+    const invoiceData = await models.dbo_invoices.create(
+      req.body,
+      {fields:Object.keys(req.body)}
+    );
+    if (invoiceData[0] == 0){
+      res.status(404).json({message: "no records found to update with given id"});
+      return;
+    }
+    res.json(invoiceData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 //  **** END ROUTING
 app.listen(PORT, () =>
