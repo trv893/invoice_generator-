@@ -1,4 +1,6 @@
+const env = process.env.NODE_ENV || 'development';
 const express = require("express");
+const { auth } = require('express-oauth2-jwt-bearer');
 // npm package installing handlebars for
 const exphbs = require("express-handlebars");
 // npm package that parses the request body
@@ -12,6 +14,8 @@ const apiRoutes = require(path.join(__dirname, "/Develop/controllers"));
 // npm package for session middleware
 const session = require("express-session");
 
+const config = require(path.join(__dirname,'/Develop/config/config.json'))[env];
+
 // initiates database modesl into variable models
 var db = require("./Develop/models");
 var initModels = require("./Develop/models/init-models");
@@ -24,6 +28,11 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
 
+const checkJwt = auth({
+  audience: 'small-biz-invoice-api-id',
+  issuerBaseURL: "https://dev-kdnytvoj.us.auth0.com/",
+});
+
 // expose apiRoutes to client
 app.use("/api", apiRoutes);
 
@@ -33,6 +42,8 @@ app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 app.use("/css", express.static(path.join(__dirname, "css")));
 //Expose the {reporoot}/uijs folder to web browser clients at path http://x/uijs
 app.use("/uijs", express.static(path.join(__dirname, "uijs")));
+
+
 
 // //Expose the {reporoot}/uijs folder to web browser clients at path http://x/uijs
 // app.use('/Develop/views', express.static(path.join(__dirname, 'views')))
@@ -46,11 +57,23 @@ app.engine(
     partialsDir: __dirname + "/views/partials",
   })
 );
-
-// GET request for index.html
-app.get("/", function (req, res) {
-  res.render("home", { data: ["test"] });
+app.get('/', function(req, res) {
+  res.render("index", { data: config, layout: false });
 });
+// GET request for index.html
+app.get("/app", function (req, res) {
+  res.render("main", { data: ["test"], layout: false });
+});
+
+app.get("/testauth", checkJwt , async function(req, res){
+  
+    res.status(200).json({
+      message: 'Hello from a public endpoint! You don\'t need to be authenticated to see this.'
+    });
+  
+
+});
+
 
 // / uncomment to diganose routing issues
 // app._router.stack.forEach(function(r){
@@ -60,7 +83,7 @@ app.get("/", function (req, res) {
 // });
 
 // ****BEGIN routing
-app.get("/api/customer", async (req, res) => {
+app.get("/api/customer", checkJwt,async (req, res) => {
   // Send the rendered Handlebars.js template back as the response
   var findOpts = {};
 
@@ -190,7 +213,7 @@ app.get("/api/invoice", async (req, res) => {
 // POST route for updating custoemrs
 
 // update a Custoemr by id
-app.put('/api/customer/:id', async(req, res) => {
+app.put('/api/customer/:id', checkJwt,async(req, res) => {
   try {
    var CustomerData = await models.dbo_customers.update(
       req.body,
@@ -273,7 +296,7 @@ app.put('/api/proposal/:id', async(req, res) => {
 
 // POST route for updating customer
 // update a customer by id
-app.post('/api/customer/', async(req, res) => {
+app.post('/api/customer/',checkJwt,async(req, res) => {
   try {
     req.body.DateCreated = Date.now()
     const customerData = await models.dbo_customers.create(

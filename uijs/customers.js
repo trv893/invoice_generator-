@@ -6,6 +6,9 @@ var signal = controller.signal;
 const searchCustomersApi = async () => {
   var r = await fetch("api/customer?q=" + $("#customer_search").val(), {
     // signal used to abort fetch
+    headers:{
+      Authorization: 'Bearer ' + localStorage.getItem("key")
+    },
     signal: signal,
   });
   var rd = await r.json();
@@ -89,6 +92,10 @@ const searchEditCustomersApi = async (id) => {
   var r = await fetch(`api/customer?Id=${id}`, {
     // signal used to abort fetch
     signal: signal,
+    headers:{
+      Authorization: 'Bearer ' + localStorage.getItem("key")
+
+    }
   });
   var rd = await r.json();
   return rd;
@@ -202,6 +209,7 @@ const postCustomerUpdate = async function (element) {
     method: "PUT",
     headers: headers,
     body: JSON.stringify(jsonbody),
+    Authorization: 'Bearer ' + localStorage.getItem("key")
   }).then(async (rawResponse) => {
     var content = await rawResponse.json();
     // console.log(content);
@@ -227,12 +235,14 @@ const postCreateNewCustomer = async function () {
   let headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
+    Authorization: 'Bearer ' + localStorage.getItem("key")
   };
 
   let r = await fetch(url, {
     method: "POST",
     headers: headers,
     body: JSON.stringify(jsonbody),
+    
   })
   
   var content = await r.json();

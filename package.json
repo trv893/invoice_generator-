@@ -28,6 +28,7 @@
     "epilogue": "^0.7.1",
     "express": "^4.17.1",
     "express-handlebars": "^6.0.6",
+    "express-oauth2-jwt-bearer": "^1.1.0",
     "express-session": "^1.17.3",
     "finale-rest": "^1.1.1",
     "fs": "^0.0.1-security",
