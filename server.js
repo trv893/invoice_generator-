@@ -116,6 +116,11 @@ app.get("/api/proposal", async (req, res) => {
           },
         },
         {
+          ["$Proposal_Customer_dbo_customer.LastName$"]: {
+            [Op.like]: `${req.query.q}%`,
+          },
+        },
+        {
           JobName: {
             [Op.like]: `${req.query.q}%`,
           },
@@ -144,23 +149,29 @@ app.get("/api/invoice", async (req, res) => {
         model: models.dbo_invoicelines,
         as: "dbo_invoicelines",
       },
+      {
+        model: models.dbo_customers,
+        as: "Invoice_Customer_dbo_customer"
+      }
     ],
   };
 
   if (req.query.q) {
     findOpts.where = {
       [Op.or]: [
-          { BillToName: { [Op.like]: req.query.q + "%" } }
-        ],
-      },
-    };
+          { BillToName: { [Op.like]: req.query.q + "%" } },
+          { ["$Invoice_Customer_dbo_customer.FirstName$"]: { [Op.like]: req.query.q + "%" } },
+          { ["$Invoice_Customer_dbo_customer.LastName$"]: { [Op.like]: req.query.q + "%" } },
+          { BillToName: { [Op.like]:'%' + req.query.q + "%" } },
+        ]
+      }
   }
-    // handles when id is specified in the fetch -as opposed to a sepreate get call
-    if (req.query.Id) {
-      findOpts.where = {
-          Id: req.query.Id
-        }
-    }
+
+  if (req.query.Id) {
+    findOpts.where = {
+        Id: req.query.Id
+      }
+  }
 
   try {
     var c = await models.dbo_invoices.findAll(findOpts);
