@@ -10,7 +10,8 @@
 
 #cutomer-search-css, #proposal-search-css, #invoice_search {
     width: 95%;
-    margin-left: 65px;
+    margin-left: 40%;
+    margin-right: 40%;
 }
 
 .is_paid_button_css {
@@ -72,3 +73,10 @@
     overflow-y: scroll;
     overflow-clip-margin: 1px;
   }
+
+@media screen and (min-width: 768px) {
+    .offcanvas {
+        width: 50vw !important;
+
+    }
+}

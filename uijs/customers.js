@@ -2,21 +2,19 @@
 var controller = new AbortController();
 var signal = controller.signal;
 
-// calls the customer api with the contents of the customer search textbox as a query string 
+// calls the customer api with the contents of the customer search textbox as a query string
 const searchCustomersApi = async () => {
-  var r = await fetch("api/customer?q=" + $("#customer_search").val(),
-   {
+  var r = await fetch("api/customer?q=" + $("#customer_search").val(), {
     // signal used to abort fetch
     signal: signal,
   });
   var rd = await r.json();
   return rd;
-
 };
 
 //receive an array of customer objects and render the html of the customer list based on received objects
 const renderCustomersFromData = async (d) => {
-    var templateHtml = `
+  var templateHtml = `
     {{#each this}}
     <div class="card">
         <div class="card-body">
@@ -32,7 +30,12 @@ const renderCustomersFromData = async (d) => {
                     </a>
                     <h3 onclick="editCustomer(this)" id="customer_{{this.Id}}" data-customer-id = {{this.Id}} class="EditCustomer start-0" data-bs-toggle="modal" data-bs-target="#editcustomerModal"><i class="bi bi-pencil ms-4 text-warning"></i></h3>
                 </div>
-               
+                    <div class="align-self-center shadow-sm rounded">
+                      <i onclick="newproposalshow(this)" data-new-customer-id="{{this.Id}}" data-proposal-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newProposalModal"> New Proposal</i>
+                    </div>
+                    <div class="align-self-center shadow-sm rounded">
+                      <i onclick="newinvoiceshow(this)" data-new-invoice-customer-id="{{this.Id}}" data-invoice-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"> New Invoice</i>
+                    </div>
                     <div class="align-self-center shadow-sm rounded">
                         <a class="btn btn-primary" href="tel:{{this.Phone1}}">
                             <i class="bi bi-telephone"></i>
@@ -46,59 +49,56 @@ const renderCustomersFromData = async (d) => {
             </div>
         </div>
     </div>
-      {{/each}}
-      `
+      {{/each}}      
+      `;  
 
-    var template = Handlebars.compile(templateHtml);
-    var compiledHtml = template(d);
-    // inject html for customer list
-    $("#customerlist").html(compiledHtml)
-    // console.log(compiledHtml);
+  var template = Handlebars.compile(templateHtml);
+  var compiledHtml = template(d);
+  // inject html for customer list
+  $("#customerlist").html(compiledHtml);
+  // console.log(compiledHtml);
 };
 
 // await the customer search then render the data
 const doCustomerSearchUi = async (d) => {
-    controller.abort();
-    controller = new AbortController()
-    signal = controller.signal
-    //Do new search
-    var customerList = await searchCustomersApi();
-    await renderCustomersFromData(customerList);
-    
+  controller.abort();
+  controller = new AbortController();
+  signal = controller.signal;
+  //Do new search
+  var customerList = await searchCustomersApi();
+  await renderCustomersFromData(customerList);
 };
 
-// start the customer search 
+// start the customer search
 const startup = async () => {
-    await doCustomerSearchUi();
+  await doCustomerSearchUi();
 };
 startup();
 
-// keyup event for customer search 
-$("#customer_search").on('keyup', async function(e){
-   await doCustomerSearchUi();
+// keyup event for customer search
+$("#customer_search").on("keyup", async function (e) {
+  await doCustomerSearchUi();
 });
 // refreshes customer list when X button clears input in seach input
-$("#customer_search").on('search', async function(e){
-    await doCustomerSearchUi();
+$("#customer_search").on("search", async function (e) {
+  await doCustomerSearchUi();
 });
 
-// calls the customer api with the contents of the customer id from edit button 
+// calls the customer api with the contents of the customer id from edit button
 const searchEditCustomersApi = async (id) => {
-  var r = await fetch(`api/customer?Id=${id}`,
-   {
+  var r = await fetch(`api/customer?Id=${id}`, {
     // signal used to abort fetch
     signal: signal,
   });
   var rd = await r.json();
   return rd;
-
 };
 
 // creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the html with onclick="editCustomer(this)"
- const editCustomer =  async function renderEditCustomersFromData (d) {
+const editCustomer = async function renderEditCustomersFromData(d) {
   event.preventDefault();
-  var e = await searchEditCustomersApi ($(d).attr('data-customer-id'));
-    var edit_customer_html = `
+  var e = await searchEditCustomersApi($(d).attr("data-customer-id"));
+  var edit_customer_html = `
                 <div class="form-group row">
                   <label for="edit_customer_first_name" class="col-sm-2 col-form-label">First</label>
                   <div class="col-sm-10">
@@ -165,21 +165,22 @@ const searchEditCustomersApi = async (id) => {
                 </div>
             </div>
     `;
-    var template = Handlebars.compile(edit_customer_html);
-    var compilededitHtml = template(e[0]);
-    // inject html for customer list
-    $("#edit-customer-form").html(compilededitHtml)
-  };
+  var template = Handlebars.compile(edit_customer_html);
+  var compilededitHtml = template(e[0]);
+  // inject html for customer list
+  $("#edit-customer-form").html(compilededitHtml);
+};
 
-  // function that populates a json object with the user inputs for exsisting customer and posts them to customerdb
-  // called from the onclick="postCustomerUpdate(this)" attribute in the above handlebars html
+// function that populates a json object with the user inputs for exsisting customer and posts them to customerdb
+// called from the onclick="postCustomerUpdate(this)" attribute in the above handlebars html
 const postCustomerUpdate = async function (element) {
-  // id value from update button on edit customer 
+  // id value from update button on edit customer
   var customerId = element.attributes[2].value;
   // gets values from customer edit inputs
-  var htmldata = $(element).parentsUntil('div.modal-body')[1];
+  var htmldata = $(element).parentsUntil("div.modal-body")[1];
   // turns customer inputs into json for PUT
   var jsonbody = {
+    // ***change these to jquery
     //Id: customerId,
     FirstName: htmldata[0].value,
     LastName: htmldata[1].value,
@@ -194,18 +195,46 @@ const postCustomerUpdate = async function (element) {
   };
   let url = `/api/customer/${customerId}`;
   let headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+    Accept: "application/json",
+    "Content-Type": "application/json",
   };
-  await fetch(
-    url,
-    {
-        method: "PUT",
-        headers: headers,
-        body: JSON.stringify(jsonbody)
-    },
-  ).then(async rawResponse =>{
-      var content = await rawResponse.json()
-      console.log(content);
+  await fetch(url, {
+    method: "PUT",
+    headers: headers,
+    body: JSON.stringify(jsonbody),
+  }).then(async (rawResponse) => {
+    var content = await rawResponse.json();
+    // console.log(content);
   });
+};
+
+// api for creating new customer
+const postCreateNewCustomer = async function () {
+  // creates json body for new cutomer post
+  var jsonbody = {
+    FirstName: $("#new_customer_first_name").val(),
+    LastName: $("#new_customer_last_name").val(),
+    Company: $("#new_customer_company").val(),
+    Phone1: $("#new_customer_phone1").val(),
+    Phone2: $("#new_customer_phone2").val(),
+    Email: $("#new_customer_email1").val(),
+    Address: $("#new_customer_adress").val(),
+    City: $("#new_customer_city").val(),
+    State: $("#new_customer_state").val(),
+    Zip: $("#new_customer_zip").val(),
+  };
+  let url = `/api/customer/`;
+  let headers = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  let r = await fetch(url, {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(jsonbody),
+  })
+  
+  var content = await r.json();
+  console.log(content);  
 };
