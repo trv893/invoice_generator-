@@ -20,8 +20,7 @@ const renderproposalsFromData = async (d) => {
     <table
         id="proposal-table-css"
         class="table table-striped mw-8"
-        aria-labelledby="dropdownMenuButton1"
-      >
+        aria-labelledby="dropdownMenuButton1">
         <thead>
           <tr>
             <th scope="col">Job</th>
@@ -41,8 +40,8 @@ const renderproposalsFromData = async (d) => {
           </tr>
           {{/each}}
         </tbody>
-      </table>>
-      `
+      </table>
+      `;
 
     var template = Handlebars.compile(templateHtml);
     var compiledHtml = template(d);
@@ -96,12 +95,10 @@ Handlebars.registerHelper('formatTime', function (date) {
   }
  var d = new Date (date);
   return d.toISOString().slice(0,10);;
-  // var mmnt = moment(date);
-  // return mmnt.format(format);
 });
 
 // creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the 
-// onclick="editproposal(this)"
+// onclick="editproposal(this)" attribvute in the above function renderproposalsFromData 
 const editproposal =  async function renderEditproposalFromData (d) {
   event.preventDefault();
   var e = await editproposalApi ($(d).attr('data-proposal-id'));

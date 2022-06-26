@@ -12,17 +12,14 @@ const apiRoutes = require(path.join(__dirname, "/Develop/controllers"));
 // npm package for session middleware
 const session = require("express-session");
 
-
+// initiates database modesl into variable models
 var db = require("./Develop/models");
 var initModels = require("./Develop/models/init-models");
 var models = initModels(db.sequelize);
+// brings in sequelize operators
 const Op = db.Sequelize.Op;
 
 const PORT = process.env.PORT || 3001;
-// npm package that generates a unique id
-var uniqid = require("uniqid");
-const dbo_customers = require("./Develop/models/dbo_customers");
-const dbo_invoices = require("./Develop/models/dbo_invoices");
 
 const app = express();
 app.use(bodyParser.json());
@@ -54,12 +51,8 @@ app.engine(
 app.get("/", function (req, res) {
   res.render("home", { data: ["test"] });
 });
-// Allow web browser access to node modules folder
-// app.get('/node_modules', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'index.html'));
-// });
 
-/// uncomment to diganose routing usses
+// / uncomment to diganose routing issues
 // app._router.stack.forEach(function(r){
 //   if (r.route && r.route.path){
 //     console.log(r.route.path)
@@ -67,21 +60,6 @@ app.get("/", function (req, res) {
 // });
 
 // ****BEGIN routing
-
-// app.get("/customer", async (req, res) => {
-//   // Send the rendered Handlebars.js template back as the response
-//   try {
-//     var c = await models.dbo_customers.findAll();
-//     var d = c.map((v) => v.dataValues);
-//     // console.log(c);
-//     res.render("home", { data: d });
-
-//     // res.status(200).json(c)
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
 app.get("/api/customer", async (req, res) => {
   // Send the rendered Handlebars.js template back as the response
   var findOpts = {};
@@ -117,20 +95,7 @@ app.get("/api/customer", async (req, res) => {
   }
 });
 
-// app.get("/proposal", async (req, res) => {
-//   // Send the rendered Handlebars.js template back as the response
-//   try {
-//     var c = await models.dbo_proposals.findAll();
-//     var d = c.map((v) => v.dataValues);
-//     // console.log(c);
-//     res.render("home", { data: d });
-
-//     // res.status(200).json(c)
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
+// get **AND** get by ID routes for proposals
 app.get("/api/proposal", async (req, res) => {
   // Send the rendered Handlebars.js template back as the response
   var findOpts = {
@@ -138,10 +103,6 @@ app.get("/api/proposal", async (req, res) => {
       {
         model: models.dbo_customers,
         as: "Proposal_Customer_dbo_customer",
-        // where: {
-        //   [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
-        //   { LastName: { [Op.like]: req.query.q + "%" } }]
-        // },
       },
     ],
   };
@@ -149,19 +110,18 @@ app.get("/api/proposal", async (req, res) => {
   if (req.query.q) {
     findOpts.where = {
       [Op.or]: [
-        { JobName: { [Op.like]: req.query.q + "%" } },
-        { JobName: { [Op.notLike]: req.query.q + "%" } },
-        { FirstName: { [Op.like]: req.query.q + "%" } },
-        { LastName: { [Op.like]: req.query.q + "%" } }
-        ]
+        {
+          ["$Proposal_Customer_dbo_customer.FirstName$"]: {
+            [Op.like]: `${req.query.q}%`,
+          },
+        },
+        {
+          JobName: {
+            [Op.like]: `${req.query.q}%`,
+          },
+        },
+      ],
     };
-  }
-
-  // handles when id is specified in the fetch -as opposed to a sepreate get call
-  if (req.query.Id) {
-    findOpts.where = {
-        Id: req.query.Id
-      }
   }
 
   try {
@@ -176,7 +136,6 @@ app.get("/api/proposal", async (req, res) => {
   }
 });
 
-
 app.get("/api/invoice", async (req, res) => {
   // Send the rendered Handlebars.js template back as the response
   var findOpts = {
@@ -184,18 +143,13 @@ app.get("/api/invoice", async (req, res) => {
       {
         model: models.dbo_invoicelines,
         as: "dbo_invoicelines",
-        // where: {
-        //   [Op.or]: [{ FirstName: { [Op.like]: req.query.q + "%" } },
-        //   { LastName: { [Op.like]: req.query.q + "%" } }]
-        // },
       },
     ],
   };
 
   if (req.query.q) {
-    findOpts = {
-      where: {
-        [Op.or]: [
+    findOpts.where = {
+      [Op.or]: [
           { BillToName: { [Op.like]: req.query.q + "%" } }
         ],
       },
@@ -284,7 +238,7 @@ app.put('/api/invoice/:id', async(req, res) => {
   }
 });
 
-// POST route for updating proposal
+// PUT route for updating proposal
 // update a proposal by id
 app.put('/api/proposal/:id', async(req, res) => {
   try {
@@ -354,21 +308,17 @@ app.post('/api/invoice/', async(req, res) => {
     const invoiceData = await models.dbo_invoices.create(
       req.body.invoice,
       {fields:Object.keys(req.body.invoice)}
-    );
+    )
+
+    var newInvoiceId = await db.sequelize.query("select @@identity as newInvoiceId");
     // get newly created invoice id
-    var newInvoiceId = await res.json();
+    // var newInvoiceId = await res.json(Id);  
     // create series of new invoice lines from the elements stored in the dbo_invoicelines
     //  key in the body using newInvoiceId as foriegn key for the invoice the invoice lines belong to
     req.body.dbo_invoicelines.forEach(async element => {
-      element.InvoiceLines_Invoice = req.params.id
+      element.InvoiceLines_Invoice = newInvoiceId[0][0].newInvoiceId;
       await models.dbo_invoicelines.create(
-        element,
-        {
-          where: {
-            InvoiceLines_Invoice: newInvoiceId
-          },
-          raw:true
-        }
+        element
       );
     });
 

@@ -249,12 +249,11 @@ const postinvoiceUpdate = async function (element) {
 // adds each now invoice line item to new field in new invoice offcanvas in main.handlebars
 // tracks how many list items are added (starts at 1 for IDs to not overlap)
 // adds the added line items to a json variable for use in api call
-var newInvoiceLinesJson = {};
+var newInvoiceLinesJson = [];
 var invoiceLineItemsCount = 1;
 $("#newInvoiceAddLineItemButton").click(function () {
   // increments the invoiceLineItemsCount er
   invoiceLineItemsCount += 1;
-  var jsonkeyzero = invoiceLineItemsCount - 2;
   // appends the html for an added invoiceLineItem to the #addedinvocielistitems in main.handlebars
   $("#addedInvoiceListItems").append(`
   <div class="row">
@@ -271,14 +270,14 @@ $("#newInvoiceAddLineItemButton").click(function () {
     </div>
   </div>
   `);
-  // appends new json data into newInvoiceLinesJson
-  $.extend(newInvoiceLinesJson, {
-    [jsonkeyzero]: {
-      Quantity: $("#new-invoice-list-item-quantity-1").val(),
-      Description: $("#newinvoices_text1").val(),
-      Amount: $("#new-invoice-list-item-price-1").val()
-    },
-  });
+  // appends new obj into newInvoiceLinesJson 
+  newInvoiceLinesJson.push(
+      {
+        Quantity: $("#new-invoice-list-item-quantity-1").val(),
+        Description: $("#newinvoices_text1").val(),
+        Amount: $("#new-invoice-list-item-price-1").val()
+      }
+    )
   // clears out the add new invoice line text items so a new line item may be added
   $("#newinvoices_text1").val("");
   $("#new-invoice-list-item-price-1").val("");
@@ -290,11 +289,18 @@ $("#newInvoiceAddLineItemButton").click(function () {
 
 // called by onclick attribute on create button in new invoice modeal in main.handlebars
 const postCreateNewinvoice = async function () {
+  var isChecked = function(){
+    if ($('#newInvoiceIsPaid').checked){
+      return true
+    }  
+    else return false
+  };
   // creates json body for new invoice post
-  // ****add for loop to itt over invoice lines using invocielineitemsount to get data
   var jsonbody = {
     invoice: {
-      // BillToDate: $("#new_invoices_date").val(),
+      InvoiceDate: Date.now(),
+      BillToName: newInvoiceCustomerName,
+      IsPaid: isChecked,
       BillToAddress: $("#new_invoice_adress").val(),
       BillToCity: $("#new_invoice_city").val(),
       BillToState: $("#new_invoice_state").val(),
@@ -316,15 +322,14 @@ const postCreateNewinvoice = async function () {
     body: JSON.stringify(jsonbody),
   });
 
-  var content = await r.json();
-  console.log(content);
-
   // clears the json added invoicelineitems variable in prep for new invoice
   newInvoiceLinesJson = {};
 };
 // populates the customer name in the new invoice modal
 var newInvoiceCustomerId = "";
+newInvoiceCustomerName = "";
 const newinvoiceshow = function (e) {
   newInvoiceCustomerId = $(e).data("new-invoice-customer-id");
+  newInvoiceCustomerName = $(e).data("invoice-customer-name");
   $("#new_invoices_customer_name").val($(e).data("invoice-customer-name"));
 };
