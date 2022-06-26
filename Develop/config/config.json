@@ -6,7 +6,7 @@
     "password": "sqlPr0gress!",
     "use_env_variable": false,
     "dialect": "mysql",
-    "authRedirectUri": "http://localhost/"
+    "authRedirectUri": "http://localhost:3001/"
   },
   "production": {
     "host" : "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",

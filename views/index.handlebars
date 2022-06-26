@@ -26,7 +26,7 @@
     function login() {
 
       webAuth.popup.authorize({
-        redirectUri: {{data.authRedirectUri}},
+        redirectUri: '{{data.authRedirectUri}}',
         responseType: 'token'
         //Any additional options can go here
       }, function (err, authResult) {
