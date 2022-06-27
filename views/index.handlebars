@@ -14,51 +14,63 @@
   <script src="https://cdn.auth0.com/js/auth0/9.18/auth0.min.js"></script>
 
   <title>invoice Generator</title>
-
+{{!-- begin script for authentification with jwd tokens  --}}
   <script>
-
+    //specifies auth0 jwt options
+    //intialized auth0's authentification library
     var webAuth = new auth0.WebAuth({
+      //database in auth0 of credentials of autherized users 
       domain: 'dev-kdnytvoj.us.auth0.com',
+      //app client is loggin into
       clientID: 'L9ADpM92pJdj7h5Mc7Q2JoADBIL5t7Wl',
+      //the api's jwt is granted access to
       audience: 'small-biz-invoice-api-id'
     });
-
+      //this function triggers the login process
     function login() {
-
+      //uses the created instence of auth0 which has an object .popup
+      // which has a method .authorize 
+      //which triggers a popup that allows user to enter credentials 
       webAuth.popup.authorize({
+        //specifies the redirect url by deloyment env as given by data attribute specified by the template renderer
         redirectUri: '{{data.authRedirectUri}}',
+        //sets the popup to pass upon successfull authentificaiton a token to the redirectUri
+        //eg http://localhost:3001#jwtTokenHere
         responseType: 'token'
         //Any additional options can go here
       }, function (err, authResult) {
-
       });
-
     }
-
+    //if the url does not have a "#", eg- http://localhost:3001
     if (!(window.location.hash)) {
+      //every 100 milisecounds
       setInterval(() => {
+        // look for successfull authentification
+        // determined by the presence of the keyname= key
         if (localStorage.getItem("key"))
         {
+        //redirect to logged in section of the app
           window.location = '/app'
-
         }
       }, 100);
-
     }
-
+    //if the url does contain a "#" eg- http://localhost:3001#jwtTokenHere
     if ((window.location.hash)) {
-
+      //validate the jwt token from url
+      // treat the hash value as a jwt token and validate it as such
       webAuth.parseHash({ hash: window.location.hash }, function (err, authResult) {
         if (err) {
           return console.log(err);
         }
-
+        // get from auth0's autherized users database the user's information eg- first name, email etc
         webAuth.client.userInfo(authResult.accessToken, function (err, user) {
+          //store the jwt token in local storage
           localStorage.setItem("key", authResult.accessToken);
+          //store the returned user's json info in local storage
           localStorage.setItem("user", JSON.stringify(user));
         });
       });
-
+      //close the auth popup
       window.close();
     }
 
@@ -66,9 +78,12 @@
 </head>
 
 <body class="bg-light">
-
-  <h1>HI WORLD!</h1>
-  <button type="button" onclick="login()">Login</button>
+  <div class="text-center">
+    <h1>Small Business Invoices and Proposals</h1>
+    <div class="pt-10">
+      <button class="btn btn-primary" type="button" onclick="login()">Login</button>
+    </div>
+  </div>
 </body>
 
 </html>

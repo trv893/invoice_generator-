@@ -1,5 +1,7 @@
-const env = process.env.NODE_ENV || 'development';
+
+// use express for routing
 const express = require("express");
+// validate jwt tokens 
 const { auth } = require('express-oauth2-jwt-bearer');
 // npm package installing handlebars for
 const exphbs = require("express-handlebars");
@@ -13,29 +15,37 @@ const fs = require("fs");
 const apiRoutes = require(path.join(__dirname, "/Develop/controllers"));
 // npm package for session middleware
 const session = require("express-session");
-
-const config = require(path.join(__dirname,'/Develop/config/config.json'))[env];
+// gets the development || or production database creds as determineted by const env
+// const config = require(path.join(__dirname,'/Develop/config/config.json'))[env];
+const config = require('./app_config');
 
 // initiates database modesl into variable models
 var db = require("./Develop/models");
+// brings in the generated sequelize code that describes the database 
 var initModels = require("./Develop/models/init-models");
+// creates an instence of the database modesl
 var models = initModels(db.sequelize);
 // brings in sequelize operators
 const Op = db.Sequelize.Op;
-
+// sets port based on the deployment enviroment as determeind by const env
 const PORT = process.env.PORT || 3001;
-
+// creates an instence of express-- append routes to this object
 const app = express();
+// middlewear that configures the express api's to consume and produce json
 app.use(bodyParser.json());
 
-const checkJwt = auth({
+// express middlewear function for validating jwt tokens 
+// used as the second param on express -app.http_method("/" , protectRoute, async function(req, res){...})
+const protectRoute = auth({
+  //auth0's api: https://manage.auth0.com/dashboard/us/dev-kdnytvoj/apis/62b7bc23e128855478e7fba6/settings
+  //tells authO which app the user is reque
   audience: 'small-biz-invoice-api-id',
+  // auth0's server url for authenticating jwt tokens 
   issuerBaseURL: "https://dev-kdnytvoj.us.auth0.com/",
 });
 
 // expose apiRoutes to client
 app.use("/api", apiRoutes);
-
 //Expose the {reporoot}/node_modules folder to web browser clients at path http://x/node_modules
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 //Expose the {reporoot}/css folder to web browser clients at path http://x/css
@@ -43,11 +53,10 @@ app.use("/css", express.static(path.join(__dirname, "css")));
 //Expose the {reporoot}/uijs folder to web browser clients at path http://x/uijs
 app.use("/uijs", express.static(path.join(__dirname, "uijs")));
 
-
-
 // //Expose the {reporoot}/uijs folder to web browser clients at path http://x/uijs
 // app.use('/Develop/views', express.static(path.join(__dirname, 'views')))
 app.set("views", path.join(__dirname, "views"));
+// tells express to use handlebars as the view engine for rendering
 app.set("view engine", "handlebars");
 // Inform Express.js on which template engine to use
 app.engine(
@@ -57,24 +66,17 @@ app.engine(
     partialsDir: __dirname + "/views/partials",
   })
 );
+// route for log in screen 
 app.get('/', function(req, res) {
+  // use .render for handlebars
+  // data is our deployment env specific config used to change auth redirect url
+  // const env determens the deloyment enviroment, then used to create const config with that enviorment
   res.render("index", { data: config, layout: false });
 });
-// GET request for index.html
+// GET request for main.handlebars
 app.get("/app", function (req, res) {
   res.render("main", { data: ["test"], layout: false });
 });
-
-app.get("/testauth", checkJwt , async function(req, res){
-  
-    res.status(200).json({
-      message: 'Hello from a public endpoint! You don\'t need to be authenticated to see this.'
-    });
-  
-
-});
-
-
 // / uncomment to diganose routing issues
 // app._router.stack.forEach(function(r){
 //   if (r.route && r.route.path){
@@ -82,35 +84,44 @@ app.get("/testauth", checkJwt , async function(req, res){
 //   }
 // });
 
-// ****BEGIN routing
-app.get("/api/customer", checkJwt,async (req, res) => {
-  // Send the rendered Handlebars.js template back as the response
-  var findOpts = {};
+// **** BEGIN routing ****
+// use protectRoute as second param for authentification on protected routes
 
+// get **AND** get by ID route for customer
+app.get("/api/customer", protectRoute,async (req, res) => {
+  // creates instence of var findOpts which is used to specifiy options for the request
+  var findOpts = {};
+  // checks if the request query has q eg- fetch("api/customer?q=
   if (req.query.q) {
+    // specifies the params of the sequelize findAll request
     findOpts = {
+      // sequelize where variable for specifying selecting criteria
       where: {
+        // specifies the Sequelize or operator
         [Op.or]: [
+          // FirstName = querystring?q=
           { FirstName: { [Op.like]: req.query.q + "%" } },
+          // OR
+          // LastName = querystring?=q
           { LastName: { [Op.like]: req.query.q + "%" } }
         ],
       },
     };
   }
-  // handles when id is specified in the fetch -as opposed to a sepreate get call
+  // If the request query has Id eg- fetch("api/customer?Id=
+  // get customer by Id
   if (req.query.Id) {
     findOpts = {
       where: {
+        //
         Id: req.query.Id
       },
     };
   }
-
+  // use the where/findOpts to select and return data from customers
   try {
     var c = await models.dbo_customers.findAll(findOpts);
     var d = c.map((v) => v.dataValues);
-    // console.log(c);
-    // res.render('home', {data:d});
     res.status(200).json(d);
     // res.status(200).json(c)
   } catch (err) {
@@ -213,7 +224,7 @@ app.get("/api/invoice", async (req, res) => {
 // POST route for updating custoemrs
 
 // update a Custoemr by id
-app.put('/api/customer/:id', checkJwt,async(req, res) => {
+app.put('/api/customer/:id', protectRoute,async(req, res) => {
   try {
    var CustomerData = await models.dbo_customers.update(
       req.body,
@@ -296,7 +307,7 @@ app.put('/api/proposal/:id', async(req, res) => {
 
 // POST route for updating customer
 // update a customer by id
-app.post('/api/customer/',checkJwt,async(req, res) => {
+app.post('/api/customer/',protectRoute,async(req, res) => {
   try {
     req.body.DateCreated = Date.now()
     const customerData = await models.dbo_customers.create(

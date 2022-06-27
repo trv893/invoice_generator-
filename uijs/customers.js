@@ -18,41 +18,25 @@ const searchCustomersApi = async () => {
 //receive an array of customer objects and render the html of the customer list based on received objects
 const renderCustomersFromData = async (d) => {
   var templateHtml = `
+  <ul style="margin:0px 0px; padding:0px 0px; list-style:none;">
+
+
     {{#each this}}
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex justify-content-between p-md-1">
-                <div class="align-self-center d-flex flex-row">
-                    <a class="btn btn-light shadow-sm rounded" href="tel:713-992-0916">
-
-                        <tr>
-                            <td>{{this.FirstName}} {{this.LastName}}</td>
-
-                        </tr>
-
-                    </a>
-                    <h3 onclick="editCustomer(this)" id="customer_{{this.Id}}" data-customer-id = {{this.Id}} class="EditCustomer start-0" data-bs-toggle="modal" data-bs-target="#editcustomerModal"><i class="bi bi-pencil ms-4 text-warning"></i></h3>
-                </div>
-                    <div class="align-self-center shadow-sm rounded">
-                      <i onclick="newproposalshow(this)" data-new-customer-id="{{this.Id}}" data-proposal-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newProposalModal"> New Proposal</i>
-                    </div>
-                    <div class="align-self-center shadow-sm rounded">
-                      <i onclick="newinvoiceshow(this)" data-new-invoice-customer-id="{{this.Id}}" data-invoice-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"> New Invoice</i>
-                    </div>
-                    <div class="align-self-center shadow-sm rounded">
-                        <a class="btn btn-primary" href="tel:{{this.Phone1}}">
-                            <i class="bi bi-telephone"></i>
-                        </a>
-                    </div>
-                    <div class="align-self-center shadow-sm">
-                        <a class="btn btn-primary" href="mailto:{{this.Email}}">
-                            <i class="bi bi-envelope" ></i>
-                        </a>
-                    </div>
-            </div>
+    <li>
+      <div class="d-flex">
+        <div class="p-2 col-9">
+        <a onclick="editCustomer(this)" id="customer_{{this.Id}}" data-customer-id={{this.Id}} class="EditCustomer start-0" data-bs-toggle="modal" data-bs-target="#editcustomerModal"> {{this.FirstName}} {{this.LastName}} </a>
         </div>
-    </div>
-      {{/each}}      
+  
+        <div class="p-2 d-flex col-3">
+          <i  onclick="newproposalshow(this)" data-new-customer-id="{{this.Id}}" data-proposal-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newProposalModal"> New Proposal</i>
+          <i onclick="newinvoiceshow(this)" data-new-invoice-customer-id="{{this.Id}}" data-invoice-customer-name="{{this.FirstName}} {{this.LastName}}" class="bi btn btn-success bi-plus ms-2 shadow" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"> New Invoice</i>
+        </div>
+       
+      </div>
+    <li>
+    {{/each}}   
+  </ul>   
       `;  
 
   var template = Handlebars.compile(templateHtml);
@@ -182,34 +166,31 @@ const editCustomer = async function renderEditCustomersFromData(d) {
 // called from the onclick="postCustomerUpdate(this)" attribute in the above handlebars html
 const postCustomerUpdate = async function (element) {
   // id value from update button on edit customer
-  var customerId = element.attributes[2].value;
-  // gets values from customer edit inputs
-  var htmldata = $(element).parentsUntil("div.modal-body")[1];
+  var customerId = $(element).attr("data-customer-id");
   // turns customer inputs into json for PUT
   var jsonbody = {
-    // ***change these to jquery
-    //Id: customerId,
-    FirstName: htmldata[0].value,
-    LastName: htmldata[1].value,
-    Company: htmldata[2].value,
-    Phone1: htmldata[7].value,
-    Phone2: htmldata[8].value,
-    Email: htmldata[4].value,
-    Address: htmldata[3].value,
-    City: htmldata[4].value,
-    State: htmldata[5].value,
-    Zip: htmldata[6].value,
+    FirstName: $("#edit_customer_first_name").val(),
+    LastName: $("#edit_customer_last_name").val(),
+    Company: $("#edit_customer_company").val(),
+    Phone1: $("#edit_customer_phone1").val(),
+    Phone2: $("#edit_customer_phone2").val(),
+    Email: $("#edit_customer_email1").val(),
+    Address: $("#edit_customer_adress").val(),
+    City: $("#edit_customer_city").val(),
+    State: $("#edit_customer_state").val(),
+    Zip: $("#edit_customer_zip").val(),
   };
   let url = `/api/customer/${customerId}`;
   let headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
+    Authorization: 'Bearer ' + localStorage.getItem("key")
   };
   await fetch(url, {
     method: "PUT",
     headers: headers,
     body: JSON.stringify(jsonbody),
-    Authorization: 'Bearer ' + localStorage.getItem("key")
+ 
   }).then(async (rawResponse) => {
     var content = await rawResponse.json();
     // console.log(content);
