@@ -97,7 +97,7 @@ Handlebars.registerHelper('formatTime', function (date) {
   return d.toISOString().slice(0,10);;
 });
 
-// creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the 
+// creates EDIT PROPosal modal and populates fields with exsisting information and is called from the 
 // onclick="editproposal(this)" attribvute in the above function renderproposalsFromData 
 const editproposal =  async function renderEditproposalFromData (d) {
   event.preventDefault();
@@ -171,7 +171,7 @@ const editproposal =  async function renderEditproposalFromData (d) {
             data-bs-target="#editProposalOffcanvas" aria-controls="editProposalOffcanvas">
             Edit Proposal Text
         </button>
-        <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+        <button disabled="disabled" class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#editproposalOffcanvas" aria-controls="editProposalOffcanvas">
             Preview Proposal
         </button>
@@ -197,7 +197,7 @@ const editproposal =  async function renderEditproposalFromData (d) {
   var compilededitOffcanvasproposalLinesTemp = offCanvisEditTemp(e[0]) ;
   // inject html for proposal list
   $("#edit-proposal-form").html(compilededitHtml);
-  $("#edit-proposal-line-text-area").html(compilededitOffcanvasproposalLinesTemp);
+  $("#edit-proposal-line-text-area").html(compilededitOffcanvasproposalLinesTemp);  
 };
 
 

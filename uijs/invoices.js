@@ -165,7 +165,7 @@ const editInvoice = async function renderEditInvoiceFromData(d) {
             data-bs-target="#editInvoiceOffcanvas" aria-controls="editInvoiceOffcanvas">
             Edit invoice Text
           </button>
-          <button class="editPreviewInvoiceButton btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
+          <button disabled="disabled" class="editPreviewInvoiceButton btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
             aria-controls="#">
             View Invoice Preview
           </button>
