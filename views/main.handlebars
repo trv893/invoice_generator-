@@ -346,10 +346,10 @@
                   data-bs-target="#newProposalOffcanvas" aria-controls="newProposalOffcanvas">
                   Edit Proposal Text
                 </button>
-                <button class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
+                {{!-- <button disabled class="btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas"
                   data-bs-target="#newProposalOffcanvas" aria-controls="newProposalOffcanvas">
                   Preview Proposal
-                </button>
+                </button> --}}
               </div>
 
             </div>
@@ -365,7 +365,7 @@
 
           <div class="offcanvas-body container w-90 h-100 ">
 
-              <div id="edit-proposal-line-text-area" class="container">
+              <div id="new-proposal-line-text-area" class="container">
                 <div class="row">
                   <textarea
                     data-new-proposal-text=""
@@ -384,7 +384,7 @@
 
           <div class="modal-footer d-flex justify-content-around">
             <button onclick="postCreateNewproposal(this)" id="post-trigger-new-proposal-btn" type="button" class="btn btn-primary">Create</button>
-            <button type="button" class="btn btn-primary">
+            <button  type="button" class="btn btn-primary">
               <i class="bi bi-envelope"></i>
             </button>
             <button type="button" class="btn btn-primary">
@@ -452,7 +452,7 @@
 
         <div class="modal-footer d-flex justify-content-around">
 
-          <button type="button" class="btn btn-primary">Create</button>
+          <button disabled="disabled" type="button" class="btn btn-primary">Update</button>
           <button type="button" class="btn btn-primary">
             <i class="bi bi-envelope"></i>
           </button>
@@ -556,7 +556,7 @@
                 data-bs-target="#newInvoiceOffcanvas" aria-controls="newInvoiceOffcanvas">
                 New Invoice Text
               </button>
-              <button class="newPreviewInvoiceButton btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
+              <button disabled="disabled" class="newPreviewInvoiceButton btn btn-primary mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#"
                 aria-controls="#">
                 View Invoice Preview
               </button>
@@ -613,13 +613,13 @@
           </div>
         </div>
 
-        <!-- *** End of invoice offcanvas itimized list html *** -->
+        <!-- *** End of new invoice offcanvas itimized list html *** -->
 
 
-
+        {{!-- new invoice modal footer --}}
         <div class="modal-footer d-flex justify-content-around">
 
-          <button type="button" class="btn btn-primary">Create</button>
+          <button disabled="disabled" type="button" class="btn btn-primary">Create</button>
           <button type="button" class="btn btn-primary">
             <i class="bi bi-envelope"></i>
           </button>
@@ -671,7 +671,7 @@
           </div>
           <div class="modal-footer d-flex justify-content-around">
 
-            <button onclick="postinvoiceUpdate(this)" type="button" class="btn btn-primary">Create</button>
+            <button onclick="postinvoiceUpdate(this)" type="button" class="btn btn-primary">Update</button>
             <button type="button" class="btn btn-primary">
               <i class="bi bi-envelope"></i>
             </button>
@@ -684,10 +684,10 @@
         <!-- *** End of EDIT invoice offcanvas itimized list html *** -->
 
 
-
+        {{!-- edit invoice modal footer --}}
         <div class="modal-footer d-flex justify-content-around">
 
-          <button type="button" class="btn btn-primary">Create</button>
+          <button  disabled="disabled" type="button" class="btn btn-primary">Create</button>
           <button type="button" class="btn btn-primary">
             <i class="bi bi-envelope"></i>
           </button>

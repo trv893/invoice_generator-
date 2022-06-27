@@ -17,3 +17,7 @@ $( "#mainProposalsTab" ).click(function() {
     $("#customers-search-container-css").hide();
     });
 
+
+//Disable nonworking controlls
+$(".bi-envelope").parents(".btn").prop("disabled", true);
+$(".bi-printer").parents(".btn").prop("disabled", true);     
