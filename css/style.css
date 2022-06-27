@@ -1,3 +1,7 @@
+.btn-light{
+    background-color: white;
+
+}
 
 #navbg {
     background-color: rgb(228, 226, 226);
@@ -79,4 +83,15 @@
         width: 50vw !important;
 
     }
+}
+
+.datarow
+{
+    text-align: left;
+
+}
+
+.EditCustomer i
+{
+    font-size:18px;
 }
