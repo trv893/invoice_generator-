@@ -213,7 +213,7 @@ const editInvoice = async function renderEditInvoiceFromData(d) {
         <textarea data-edit-invoice-line-item-id="{{this.Id}}" class="billToInvoiceLine w-100 px-2  mt-2 p-0" name="invoices_text"
         >{{this.Description}}</textarea>
         <div class=" d-flex flex-row w-100 mt-1 ">
-          <div data-edit-invoice-line-item-Amount = "{{this.Amount}}" class="input-group">
+          <div data-edit-invoice-line-item-Amount="{{this.Amount}}" class="input-group">
             <span class="input-group-text">$</span>
             <input value="{{this.Amount}}" type="text" class="billToItemAmount form-control" aria-label="" />
           </div>
