@@ -12,7 +12,7 @@
     padding: 0px;
 }
 
-#cutomer-search-css, #proposal-search-css, #invoice_search {
+#cutomer-search-css, #proposal-search-css, #invoice-search-css {
     width: 95%;
     margin-left: 40%;
     margin-right: 40%;
@@ -94,4 +94,9 @@
 .EditCustomer i
 {
     font-size:18px;
+}
+
+.list-primary{
+    font-weight: bold;
+    font-size: 1.1em;
 }

@@ -2,17 +2,27 @@
 var controller = new AbortController();
 var signal = controller.signal;
 
+const failedlogin = function(){
+  localStorage.clear();
+  window.location = '/';
+
+};
+
 // calls the customer api with the contents of the customer search textbox as a query string
 const searchCustomersApi = async () => {
-  var r = await fetch("api/customer?q=" + $("#customer_search").val(), {
-    // signal used to abort fetch
-    headers:{
-      Authorization: 'Bearer ' + localStorage.getItem("key")
-    },
-    signal: signal,
-  });
-  var rd = await r.json();
-  return rd;
+  try {
+    var r = await fetch("api/customer?q=" + $("#customer_search").val(), {
+      // signal used to abort fetch
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("key"),
+      },
+      signal: signal,
+    });
+    var rd = await r.json();
+    return rd;
+  } catch (err) {
+    failedlogin();
+  }
 };
 
 //receive an array of customer objects and render the html of the customer list based on received objects
@@ -26,8 +36,8 @@ const renderCustomersFromData = async (d) => {
       <a class="d-flex btn btn-light shadow-sm m-1 EditCustomer" onclick="editCustomer(this)" id="customer_{{this.Id}}" data-customer-id={{this.Id}} data-bs-toggle="modal" data-bs-target="#editcustomerModal">
         
           <div class="p-2 col-9">
-            <div class="row datarow">
-              <span> {{this.FirstName}} {{this.LastName}} </span>
+            <div class="row datarow ">
+              <span class="text-uppercase list-primary" > {{this.FirstName}} {{this.LastName}} </span>
             </div>
             <div class="row datarow">
               <span> {{this.Address}}, {{this.City}} </span>
@@ -83,16 +93,19 @@ $("#customer_search").on("search", async function (e) {
 
 // calls the customer api with the contents of the customer id from edit button
 const searchEditCustomersApi = async (id) => {
-  var r = await fetch(`api/customer?Id=${id}`, {
-    // signal used to abort fetch
-    signal: signal,
-    headers:{
-      Authorization: 'Bearer ' + localStorage.getItem("key")
-
-    }
-  });
-  var rd = await r.json();
-  return rd;
+  try {
+    var r = await fetch(`api/customer?Id=${id}`, {
+      // signal used to abort fetch
+      signal: signal,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("key"),
+      },
+    });
+    var rd = await r.json();
+    return rd;
+  } catch (err) {
+    failedlogin();
+  }
 };
 
 // creates EDIT CUSTOEMR modal and populates fields with exsisting information and is called from the html with onclick="editCustomer(this)"
