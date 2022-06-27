@@ -1,6 +1,15 @@
 // creates abort controller for stopping fetch during autocomplete
 var controller = new AbortController();
 var signal = controller.signal;
+// foramts date for use in handlebars
+Handlebars.registerHelper('formatTime', function (date) {
+  if (!date){
+    return
+  }
+ var d = new Date (date);
+  return d.toISOString().slice(0,10);;
+});
+
 
 // calls the proposal api with the contents of the proposal search textbox as a query string 
 const searchproposalsApi = async () => {
@@ -16,32 +25,66 @@ const searchproposalsApi = async () => {
 
 //receive an array of proposal objects and render the html of the proposal list based on received objects
 const renderproposalsFromData = async (d) => {
+    // var templateHtml = `
+    // <table
+    //     id="proposal-table-css"
+    //     class="table table-striped mw-8"
+    //     aria-labelledby="dropdownMenuButton1">
+    //     <thead>
+    //       <tr>
+    //         <th scope="col">Job</th>
+    //         <th scope="col">Customer</th>   
+    //         <th scope="col">Date</th>
+    //         <th scope="col">Amount</th>
+    //       </tr>
+    //     </thead>
+    //     <tbody>
+    //     {{#each this}}
+    //       <tr>
+    //         <th class="d-flex flex-row" scope="row">{{this.JobName}}<h5
+    //         onclick="editproposal(this)" id="edit_proposal_{{this.Id}}" data-proposal-id={{this.Id}} class=" start-0" data-bs-toggle="modal" data-bs-target="#editProposalModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
+    //         <td>{{this.Proposal_Customer_dbo_customer.FirstName}} {{this.Proposal_Customer_dbo_customer.LastName}}</td>
+    //         <td>{{this.ProposalDate}}</td>
+    //         <td>{{this.ProposalAmount}}</td>
+    //       </tr>
+    //       {{/each}}
+    //     </tbody>
+    //   </table>
+    //   `;
     var templateHtml = `
-    <table
-        id="proposal-table-css"
-        class="table table-striped mw-8"
-        aria-labelledby="dropdownMenuButton1">
-        <thead>
-          <tr>
-            <th scope="col">Job</th>
-            <th scope="col">Customer</th>   
-            <th scope="col">Date</th>
-            <th scope="col">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-        {{#each this}}
-          <tr>
-            <th class="d-flex flex-row" scope="row">{{this.JobName}}<h5
-            onclick="editproposal(this)" id="edit_proposal_{{this.Id}}" data-proposal-id={{this.Id}} class=" start-0" data-bs-toggle="modal" data-bs-target="#editProposalModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
-            <td>{{this.Proposal_Customer_dbo_customer.FirstName}} {{this.Proposal_Customer_dbo_customer.LastName}}</td>
-            <td>{{this.ProposalDate}}</td>
-            <td>{{this.ProposalAmount}}</td>
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
-      `;
+  <ul style="margin:0px 0px; padding:0px 0px; list-style:none;">
+
+
+    {{#each this}}
+    <li>
+      <a class="d-flex btn btn-light shadow-sm m-1 EditCustomer" onclick="editproposal(this)" id="edit_proposal_{{this.Id}}" data-proposal-id={{this.Id}}  data-bs-toggle="modal" data-bs-target="#editProposalModal" >
+        
+          <div class="p-2 col-9">
+            <div class="datarow">
+              <span class="text-uppercase list-primary">{{this.JobName}}</span><span>&nbsp;- {{formatTime this.ProposalDate}}</span>
+            </div>
+
+            <div class="row datarow">
+              <span> {{this.Proposal_Customer_dbo_customer.FirstName}} {{this.Proposal_Customer_dbo_customer.LastName}} </span>
+            </div>
+            <div class="row datarow">
+              <span> {{this.JobLocation}} </span>
+            </div>
+          </div>
+    
+          <div class="p-2 d-flex col-3">
+            <div class="row">
+              <div class="col">
+              <i    >&nbsp;</i>
+                
+              </div>
+            </div>
+          </div>  
+      </a>
+    <li>
+    {{/each}}   
+  </ul>   
+      `; 
 
     var template = Handlebars.compile(templateHtml);
     var compiledHtml = template(d);
@@ -88,14 +131,7 @@ const editproposalApi = async (id) => {
 
 };
 
-// foramts date for use in handlebars
-Handlebars.registerHelper('formatTime', function (date) {
-  if (!date){
-    return
-  }
- var d = new Date (date);
-  return d.toISOString().slice(0,10);;
-});
+
 
 // creates EDIT PROPosal modal and populates fields with exsisting information and is called from the 
 // onclick="editproposal(this)" attribvute in the above function renderproposalsFromData 
