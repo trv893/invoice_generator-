@@ -47,15 +47,49 @@ const renderinvoicesFromData = async (d) => {
 
   // var totalAmount = await totalAmount2(this.dbo_invoicelines.Amount);
   // console.log(totalAmount);
+  // var templateHtml = `
+  //   {{#each this}}
+  //   <tr>
+  //       <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 onclick="editInvoice(this)" id="edit_invoice_{{this.Id}}" data-invoice-id="{{this.Id}}" class="start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
+  //       <td>{{this.InvoiceDate}}</td>
+  //       <td>{{sum this}}</td>
+  //   </tr>
+  //   {{/each}}
+  //     `;
   var templateHtml = `
+  <ul style="margin:0px 0px; padding:0px 0px; list-style:none;">
+
+
     {{#each this}}
-    <tr>
-        <th class="d-flex flex-row" scope="row">{{this.BillToName}} <h5 onclick="editInvoice(this)" id="edit_invoice_{{this.Id}}" data-invoice-id="{{this.Id}}" class="start-0" data-bs-toggle="modal" data-bs-target="#editInvoiceModal"><i class="bi bi-pencil ms-4 text-warning"></i></h5></th>
-        <td>{{this.InvoiceDate}}</td>
-        <td>{{sum this}}</td>
-    </tr>
-    {{/each}}
-      `;
+    <li>
+      <a class="d-flex btn btn-light shadow-sm m-1 EditCustomer" onclick="editInvoice(this)" id="edit_invoice_{{this.Id}}" data-invoice-id="{{this.Id}}" data-bs-toggle="modal" data-bs-target="#editInvoiceModal">
+        
+          <div class="p-2 col-9">
+            <div class="datarow">
+              <span class="text-uppercase list-primary">{{this.BillToName}}</span><span>&nbsp;- {{formatTime this.InvoiceDate}}</span>
+            </div>
+
+            <div class="row datarow">
+              <span> {{this.Invoice_Customer_dbo_customer.FirstName}} {{this.Invoice_Customer_dbo_customer.LastName}} </span>
+            </div>
+            <div class="row datarow">
+              <span>Amount: {{sum this}} </span>
+            </div>
+          </div>
+    
+          <div class="p-2 d-flex col-3">
+            <div class="row">
+              <div class="col">
+              <i    >&nbsp;</i>
+                
+              </div>
+            </div>
+          </div>  
+      </a>
+    <li>
+    {{/each}}   
+  </ul>   
+      `; 
 
   var template = Handlebars.compile(templateHtml);
   var compiledHtml = template(d);
@@ -85,7 +119,7 @@ $("#invoice_search").on("keyup", async function (e) {
 });
 // refreshes invoice list when X button clears input in seach input
 $("#invoice_search").on("search", async function (e) {
-  await doinvoiceSearchUi();
+  await doinvoiceSearchUi(); 
 });
 
 // calls the invoice api with the contents of the invoice id from edit button
@@ -190,7 +224,7 @@ const editInvoice = async function renderEditInvoiceFromData(d) {
         </div>
       </div>
       {{/each}}
-    `;
+    `; 
   // compile and inject both html variables into main.handlebars
   var template = Handlebars.compile(edit_invoice_html);
   var offCanvisEditTemp = Handlebars.compile(invoiceLineItemsHtml);

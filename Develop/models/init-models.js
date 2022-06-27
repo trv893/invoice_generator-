@@ -29,7 +29,7 @@ function initModels(sequelize) {
     dbo_rolepermissions,
     dbo_settings,
   };
-}
+} 
 module.exports = initModels;
 module.exports.initModels = initModels;
 module.exports.default = initModels;
