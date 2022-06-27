@@ -5,7 +5,8 @@
     "username": "root",
     "password": "sqlPr0gress!",
     "use_env_variable": false,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "authRedirectUri": "http://localhost:3001/"
   },
   "production": {
     "host" : "ble5mmo2o5v9oouq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -13,6 +14,7 @@
     "username": "tsmhlrsssvnzwbmy",
     "password": "smf6gz1xae8l7m6s",
     "use_env_variable": false,
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "authRedirectUri": "https://small-business-invoicing.herokuapp.com/"
   }
 }
