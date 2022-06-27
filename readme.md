@@ -1,9 +1,51 @@
-authentification explinatin
-the "./" route takes you to a page that has a button to login
-that page looks for a jwt token in local storage every 100 milisec
-if there is no token, do nothing
-if there is token, redirect to ./app logged in portion of the app
-when user clicks login button they are redirected to auth0 popup to enter credentials
-successfull authentifation redirects them back to ./ with a hashtag jwt token
-when the jwt token is present in the url at this page the
-the user is redirected to ./app
+# Small Buisness Invoicing and Proposal Tracker 
+
+![GitHub license](https://img.shields.io/badge/license-GNUGPLv3-blue.svg)
+
+## Description
+
+A web based application that makes customer, invoices and proposal management as simple as possibe
+
+## Table of Contents
+
+* [Installation](#installation) 
+* [Usage](#usage) 
+* [Features](#features) 
+* [License](#license) 
+
+
+## Installation
+To install necessary dependencies, run the following command:
+  ```
+  npm i
+  ```
+To generate sequelize model from exsisting database run:
+  ```
+  node sequelize-auto + database creds
+  ```
+
+
+## Usage
+
+Install dependencies, include a .env file in root with your database credentials, create a auth0 app for authentification and apply correct redirect urls, and enjoy!
+
+
+
+## Features
+
+- search customers invoices and proposals
+- edit customers invoices and proposals
+- create customers invoices and proposals
+
+![Example](assets/Capture1.JPG)
+![Example](assets/Capture.JPG)
+![Example](assets/Capture2.JPG)
+
+## License
+
+This project is licensed under the GNUGPLv3
+
+## Questions
+
+If you have any questions about the repo, open an issue or contact me directly at trevorHilimire@gmail.com
+This project was created by Github user: [Trv893](https://github.com/trv893/)
